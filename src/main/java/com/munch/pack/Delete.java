@@ -15,6 +15,7 @@ public class Delete {
 
             Statement statement = connection.createStatement();
 
+            System.out.println("Enter user you want to delete:");
             String name = sc.nextLine();
 
             String insertSql = "Delete from people where name = '" + name + "';";

@@ -17,6 +17,7 @@ public class CheckUser {
 
             Statement statement = connection.createStatement();
 
+            System.out.println("Enter name to check if your user exist:");
             String name = sc.nextLine();
 
             ResultSet resultSet = statement.executeQuery("SELECT * FROM people where name = '" + name +"'");

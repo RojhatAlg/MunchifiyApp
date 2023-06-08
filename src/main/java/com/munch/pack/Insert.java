@@ -16,7 +16,9 @@ public class Insert {
 
             Statement statement = connection.createStatement();
 
+            System.out.println("Enter name for your new account: ");
             String name = sc.nextLine();
+            System.out.println("Enter your last name for your new account: ");
             String lastName = sc.nextLine();
 
             String insertSql = "INSERT INTO `people` (`name`, `lastName`) VALUES ('" + name + "', '" + lastName + "');";
