@@ -39,4 +39,14 @@ public class Comment {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", text='" + text + '\'' +
+                ", userId=" + userId +
+                '}';
+    }
+
 }
