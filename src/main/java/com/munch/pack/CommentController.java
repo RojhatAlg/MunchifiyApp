@@ -1,19 +1,18 @@
 package com.munch.pack;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/comments")
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
 public class CommentController {
     private final CommentDao commentDAO;
-    private static final Logger logger = Logger.getLogger(CommentController.class.getName());
 
     public CommentController(CommentDao commentDAO) {
         this.commentDAO = commentDAO;
@@ -21,7 +20,6 @@ public class CommentController {
 
     @GetMapping
     public ResponseEntity<List<Comment>> getAllComments() {
-        logger.info("Invoking getAllComments() method");
         List<Comment> comments = commentDAO.findAll();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
