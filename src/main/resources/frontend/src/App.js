@@ -31,6 +31,7 @@ const Post = () => {
             });
     };
 
+
     return (
         <div className="post">
             <img src="https://c4.wallpaperflare.com/wallpaper/108/140/869/digital-digital-art-artwork-fantasy-art-drawing-hd-wallpaper-thumb.jpg" alt="Post" />
@@ -44,7 +45,7 @@ const Post = () => {
                 {comments.map((comment) => (
                     <div key={comment.id}>
                         <p>{comment.text}</p>
-                        <p>By User ID: {comment.userId}</p>
+                        <p>{comment.name}</p>
                     </div>
                 ))}
             </div>

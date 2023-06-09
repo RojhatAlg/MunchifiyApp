@@ -15,7 +15,7 @@ public class CheckUser {
         try {
             Scanner sc = new Scanner(System.in);
 
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/projekt_smidig", "root", "amed2012");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munch_db", "root", "Passord123");
 
             Statement statement = connection.createStatement();
 

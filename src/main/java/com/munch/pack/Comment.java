@@ -5,13 +5,16 @@ public class Comment {
     private String text;
     private Long userId;
 
+    private String name;
+
     public Comment() {
     }
 
-    public Comment(Long id, String text, Long userId) {
+    public Comment(Long id, String text, Long userId, String name) {
         this.id = id;
         this.text = text;
         this.userId = userId;
+        this.name = name;
     }
 
     // Getters and setters
@@ -40,10 +43,15 @@ public class Comment {
         this.userId = userId;
     }
 
+    public String getName(){ return name; }
+
+    public void setName(String name){ this.name = name; }
+
     @Override
     public String toString() {
         return "Comment{" +
                 "id=" + id +
+                "username=" + name +
                 ", text='" + text + '\'' +
                 ", userId=" + userId +
                 '}';
