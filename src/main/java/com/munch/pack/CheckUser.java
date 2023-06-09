@@ -8,23 +8,24 @@ import java.util.Scanner;
 
 public class CheckUser {
 
-    public static void login(){
+    public static ResultSet login(){
+
+        ResultSet resultSet = null;
 
         try {
             Scanner sc = new Scanner(System.in);
 
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "Passord123");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/projekt_smidig", "root", "amed2012");
 
             Statement statement = connection.createStatement();
 
             System.out.println("Enter name to check if your user exist:");
             String name = sc.nextLine();
 
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM people where name = '" + name +"'");
+            resultSet = statement.executeQuery("SELECT * FROM user where Name = '" + name +"'");
 
             if (resultSet.next()){
-                System.out.printf("Success, this is your user: " + resultSet.getString("name") + " ");
-                System.out.printf(resultSet.getString("lastName"));
+                System.out.printf("Success, this is your user: " + resultSet.getString("Name") + " ");
                 System.out.println("");
             }else{
                 System.out.println("This user is not in the database, try again!");
@@ -33,5 +34,8 @@ public class CheckUser {
         } catch (Exception e ){
             e.printStackTrace();
         }
+        return resultSet;
     }
+
+
 }

@@ -2,6 +2,7 @@ package com.munch.pack;
 
 import org.springframework.stereotype.Component;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +11,27 @@ public class CommentDao {
     private List<Comment> comments;
 
     public CommentDao() {
-        // Initialize the comments list with dummy data
         comments = new ArrayList<>();
-        comments.add(new Comment(1L, "This is the first comment.", 1L));
-        comments.add(new Comment(2L, "This is the second comment.", 2L));
-        comments.add(new Comment(3L, "This is the third comment.", 1L));
+        loadCommentsFromDatabase();
+    }
+
+    private void loadCommentsFromDatabase() {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/projekt_smidig", "root", "amed2012")) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM Comments");
+
+            while (resultSet.next()) {
+                Long id = resultSet.getLong("idComments");
+                Long postId = resultSet.getLong("PostId");
+                Long userId = resultSet.getLong("UserId");
+                String text = resultSet.getString("Comment");
+
+                Comment comment = new Comment(id, text, userId);
+                comments.add(comment);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<Comment> findAll() {
@@ -28,7 +45,6 @@ public class CommentDao {
     }
 
     private Long generateNextId() {
-        // Generate a unique ID for the new comment
         Long maxId = comments.stream()
                 .mapToLong(Comment::getId)
                 .max()

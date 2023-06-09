@@ -11,14 +11,14 @@ public class Delete {
         try {
             Scanner sc = new Scanner(System.in);
 
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "Passord123");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/projekt_smidig", "root", "amed2012");
 
             Statement statement = connection.createStatement();
 
             System.out.println("Enter user you want to delete:");
             String name = sc.nextLine();
 
-            String insertSql = "Delete from people where name = '" + name + "';";
+            String insertSql = "Delete from bruker where Navn = '" + name + "';";
 
             statement.executeUpdate(insertSql);
 

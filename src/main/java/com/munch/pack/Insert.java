@@ -12,7 +12,7 @@ public class Insert {
         try {
             Scanner sc = new Scanner(System.in);
 
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "Passord123");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/projekt_smidig", "root", "amed2012");
 
             Statement statement = connection.createStatement();
 
@@ -21,7 +21,7 @@ public class Insert {
             System.out.println("Enter your last name for your new account: ");
             String lastName = sc.nextLine();
 
-            String insertSql = "INSERT INTO `people` (`name`, `lastName`) VALUES ('" + name + "', '" + lastName + "');";
+            String insertSql = "INSERT INTO bruker (Navn) VALUES ('" + name + "');";
 
             statement.executeUpdate(insertSql);
 
