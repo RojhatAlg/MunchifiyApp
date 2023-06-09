@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import './Post.css';
 
 const Post = () => {
     const [likes, setLikes] = useState(0);
@@ -30,7 +30,6 @@ const Post = () => {
                 console.error('Error fetching comments:', error);
             });
     };
-
 
     return (
         <div className="post">
