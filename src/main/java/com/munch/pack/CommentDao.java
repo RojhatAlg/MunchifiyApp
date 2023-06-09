@@ -19,7 +19,7 @@ public class CommentDao {
     }
 
     private void loadCommentsFromDatabase() {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munch_db", "root", "Passord123")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/projekt_smidig", "root", "amed2012")) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * from comments, user WHERE  comments.UserId = user.idUser;");
 
@@ -29,8 +29,9 @@ public class CommentDao {
                 Long postId = resultSet.getLong("PostId");
                 Long userId = resultSet.getLong("UserId");
                 String text = resultSet.getString("Comment");
+                Date date = resultSet.getDate("Date");
 
-                Comment comment = new Comment(id, text, userId, name);
+                Comment comment = new Comment(id, text, userId, name, date);
                 comments.add(comment);
             }
         } catch (SQLException e) {

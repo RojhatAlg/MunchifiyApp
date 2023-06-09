@@ -26,6 +26,7 @@
   background-color: #f1f1f1;
   border-radius: 5px;
   padding: 10px;
+  white-space: nowrap;
 }
 
 .post .comments p {

@@ -1,5 +1,7 @@
 package com.munch.pack;
 
+import java.util.Date;
+
 public class Comment {
     private Long id;
     private String text;
@@ -7,14 +9,25 @@ public class Comment {
 
     private String name;
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    private Date date;
+
     public Comment() {
     }
 
-    public Comment(Long id, String text, Long userId, String name) {
+    public Comment(Long id, String text, Long userId, String name, Date date) {
         this.id = id;
         this.text = text;
         this.userId = userId;
         this.name = name;
+        this.date = date;
     }
 
     // Getters and setters

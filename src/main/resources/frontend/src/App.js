@@ -44,8 +44,10 @@ const Post = () => {
             <div className="comments" style={commentsStyle}>
                 {comments.map((comment) => (
                     <div key={comment.id}>
-                        <p>{comment.text}</p>
-                        <p>{comment.name}</p>
+                        <p>--------------------------------</p>
+                        <p>Dato: {comment.date}</p>
+                        <p>{comment.name}: {comment.text}</p>
+                        <p>--------------------------------</p>
                     </div>
                 ))}
             </div>

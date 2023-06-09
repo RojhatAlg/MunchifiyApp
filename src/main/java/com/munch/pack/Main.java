@@ -21,8 +21,7 @@ public class Main {
             // Iterate over the ResultSet to print user data
             while (resultSet.next()) {
                 String retrievedName = resultSet.getString("name");
-                String retrievedLastName = resultSet.getString("lastName");
-                System.out.println("User: " + retrievedName + " " + retrievedLastName);
+                System.out.println("User: " + retrievedName);
             }
         } catch (SQLException e) {
             e.printStackTrace();

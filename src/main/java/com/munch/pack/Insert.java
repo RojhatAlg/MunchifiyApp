@@ -21,7 +21,7 @@ public class Insert {
             System.out.println("Enter your last name for your new account: ");
             String lastName = sc.nextLine();
 
-            String insertSql = "INSERT INTO bruker (Navn) VALUES ('" + name + "');";
+            String insertSql = "INSERT INTO user (Name) VALUES ('" + name + "');";
 
             statement.executeUpdate(insertSql);
 
