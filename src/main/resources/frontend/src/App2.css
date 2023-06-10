@@ -1,0 +1,417 @@
+.app {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .app h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  .App {
+    text-align: center;
+  }
+  
+  .App-logo {
+    height: 40vmin;
+    pointer-events: none;
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+      animation: App-logo-spin infinite 20s linear;
+    }
+  }
+  
+  .App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .App-link {
+    color: #61dafb;
+  }
+  .ReactModal__Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .ReactModal__Content {
+    background-color: white;
+    padding: 10px;
+    border-radius: 4px;
+    max-width: 400px;
+    width: 100%;
+    height: 50%;
+    text-align: center;
+  }
+  
+  
+  
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /*Font, size and alignement of text*/
+  .nameOfMuseum {
+    text-align: center;
+    font-size: 400%;
+    margin-top: 2%;
+    font-family: 'CustomFont1', sans-serif;
+    text-transform: uppercase;
+  }
+  .titleForPosts{
+    font-family: 'CustomFont2', sans-serif;
+  margin-bottom: 1%;
+  }
+  .edit-profile-button-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .edit-profile-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-top: 2%;
+    margin-right: 2%;
+    align-self: flex-start;
+  }
+  
+  
+  
+  /* Edit Profile Page */
+  
+  .profile-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .heading {
+    font-family: 'CustomFont2', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 50px;
+    text-align: center;
+    color: #333;
+  }
+  
+  .sub-heading {
+    margin-top: 0;
+    color: #666;
+  }
+  
+  .profile-info {
+    margin-top: 20px;
+    font-family: 'CustomFont2', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    
+  }
+  
+  .profile-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .profile-label {
+    font-family: 'CustomFont2', sans-serif;
+    margin-right: 10px;
+  }
+  
+  .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  
+  .activity-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .activity-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Profile Page*/
+  
+  .user-title{
+    font-size: 40px;
+    margin-right: 20%;
+  }
+  
+  .gallery-button, .favorites-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: larger;
+  }
+  .gallery-button {
+    float: left;
+    margin-left: 6%;
+  }
+  
+  .favorites-button {
+    float: right;
+    margin-right: 6%;
+  }
+  
+  .line {
+    width: 95%;
+    height: 2px;
+    background-color: black;
+    margin: auto;
+   
+  }
+  .user-profile {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 6%;
+    margin-bottom: 2%;
+  }
+  
+  .user-image {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+  }
+  .profile-image-container {
+    width: auto;
+   
+    padding: 10px;
+  }
+  
+  .profile-image {
+    width: 100%;
+    height: 70%;
+  }
+  
+  .icon-container {
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .icon {
+    margin-right: 5px;
+  }
+  
+  
+  
+  /*Search Page*/
+  
+  .searchBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .searchBox input {
+    width: 300px;
+    padding: 10px;
+    font-size: 18px;
+  }
+  
+  .searchBox button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+  
+  
+  /* Notification Page */
+  .notification-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+  }
+  
+  .notification-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .notification-avatar {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
+  
+  .notification-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .notification-name {
+    font-family: 'CustomFont2', sans-serif;
+    
+  }
+  
+  .notification-content {
+    font-style: italic;
+    flex: 1;
+  }
+  
+  /* Add Page */
+  .upload-icon {
+    width: 100%;
+    height: 100px;
+    background-color: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .rectangle {
+    border: 1px solid gray;
+    width: 60px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  
+  /*LoginPage*/
+  
+  .aligningText{
+    margin-left: 8%;
+    font-family: 'CustomFont1', sans-serif;
+    font-size: large;
+  }
+  
+  .searchBox2 input{
+    width: 72%;
+    font-size: 100%;
+    padding: 5%;
+    margin-top: 2%;
+    margin-left: 8%;
+   
+  }
+  .login-button, .signup-button{
+    padding: 10px 20px;
+    background-color: #ffffff;
+    color: #000000;
+    border-width: 2% solid black;
+    border-radius: 10%;
+    cursor: pointer;
+    width: 40%;
+    margin: 5%;
+  }
+  .login-button, .signup-button{
+    margin-left: 8%;
+  }
+  
+  /*Edit-profile*/
+  
+  .edit-profile-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .back-button {
+    position: absolute;
+    margin-top: 5%;
+    margin-left: 6%;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 6%;
+    margin-top: 40%;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  
+  
+  .button-container button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-bottom: 20%;
+    font-size: 120%;
+    cursor: pointer;
+  }
+  
+  .logout-button {
+    position: absolute;
+    bottom: 3%;
+    left: 6%;
+    background: none;
+    border: none;
+    font-size: 120%;
+    cursor: pointer;
+  }
+  
+  
+  
+  
+  /*font from Munch*/
+  
+  @font-face {
+    font-family: 'CustomFont1';
+    src: url('./font/GirottMunch-BoldBackslant.otf') format('opentype'),
+         url('.//font/GirottMunch-BoldBackslant.ttf') format('truetype');
+    /* Add more font formats if necessary */
+  }
+  
+  @font-face {
+    font-family: 'CustomFont2';
+    src: url('./font/GirottMunch-BoldBackslant.otf') format('opentype'),
+         url('./font/GirottMunch-BoldSlant.ttf') format('truetype');
+    /* Add more font formats if necessary */
+  }
+  
+  /* Example usage */
+  h1 {
+    font-family: 'CustomFont1', sans-serif;
+  }
+  
+  
+  
+  
+  
