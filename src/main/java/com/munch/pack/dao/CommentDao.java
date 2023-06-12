@@ -1,5 +1,7 @@
-package com.munch.pack;
+package com.munch.pack.dao;
 
+import com.munch.pack.entities.Comment;
+import com.munch.pack.entities.Reply;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;

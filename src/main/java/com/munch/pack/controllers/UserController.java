@@ -1,5 +1,7 @@
-package com.munch.pack;
+package com.munch.pack.controllers;
 
+import com.munch.pack.entities.User;
+import com.munch.pack.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

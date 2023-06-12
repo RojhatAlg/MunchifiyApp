@@ -1,4 +1,4 @@
-package com.munch.pack;
+package com.munch.pack.entities;
 
 import java.util.Date;
 
