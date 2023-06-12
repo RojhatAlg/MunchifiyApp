@@ -29,7 +29,7 @@ function LoginPage() {
 
     <p className="aligningText">{passwrd}</p>
     <div className="searchBox2">
-    <input type="text" placeholder="password" />
+    <input type="password" placeholder="password" />
     </div>
     
     <button className="login-button" onClick={handleLogin}>Log in</button>
