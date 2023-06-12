@@ -1,180 +1,159 @@
 import React, { useState, useEffect } from 'react';
-import ReactModal from 'react-modal';
-import '../App/App.css';
-import Modal from 'react-modal';
-import Navigation from '../../components2/Navigation';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import CommentIcon from '@mui/icons-material/Comment';
-import PersonIcon from '@mui/icons-material/AccountCircleOutlined';
-import EditProfile from '../../components2/EditProfile'
-import sceneryImage from '../../assets/scenery.jpg';
-import sceneryImage2 from '../../assets/scenery2.jpg';
-import sceneryImage3 from '../../assets/scenery3.jpg';
-import sceneryImage4 from '../../assets/scenery4.jpg';
-import sceneryImage5 from '../../assets/scenery5.jpg';
-import sceneryImage6 from '../../assets/scenery6.jpg';
-import sceneryImage7 from '../../assets/scenery7.jpg';
-
-Modal.setAppElement('#root');
+import './Post.css';
 
 const Post = () => {
-  const [isCommentsVisible, setIsCommentsVisible] = useState(false);
-  const [likesData, setLikesData] = useState([]);
+    const [likes, setLikes] = useState(0);
+    const [comments, setComments] = useState([]);
+    const [users, setUsers] = useState({});
+    const [replyText, setReplyText] = useState('');
+    const [replyCommentId, setReplyCommentId] = useState(null);
 
-  // Title
-  const nameOfMuseum = 'Munchify';
+    useEffect(() => {
+        // Fetch the likes data from the backend API
+        fetch('/api/likes')
+            .then((response) => response.json())
+            .then((data) => {
+                // Calculate the total number of likes
+                const totalLikes = data.length;
+                setLikes(totalLikes);
+            })
+            .catch((error) => {
+                console.error('Error fetching likes:', error);
+            });
 
-  useEffect(() => {
-    fetchLikesData();
-  }, []);
+        // Fetch the users data from the backend API
+        fetch('/api/users')
+            .then((response) => response.json())
+            .then((data) => {
+                // Create a map of userId to user object
+                const usersMap = data.reduce((map, user) => {
+                    map[user.id] = user;
+                    return map;
+                }, {});
+                setUsers(usersMap);
+            })
+            .catch((error) => {
+                console.error('Error fetching users:', error);
+            });
+    }, []);
 
-  const fetchLikesData = () => {
-    fetch('/api/likes')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Likes Data:', data);
-        setLikesData(data);
-      })
-      .catch((error) => {
-        console.error('Error fetching likes:', error);
-      });
-  };
-  
-    
-
-    const data = [
-        {
-            id: 1,
-            profileName: "Knight rider",
-            profilePicture: <PersonIcon style={{ fontSize: 48 }}/>,
-            imgSrc: sceneryImage,
-            likes: 10,
-            comments: 2
-        },
-        {
-            id: 2,
-            profileName: "Greger",
-            profilePicture: <PersonIcon style={{ fontSize: 48 }}/>,
-            imgSrc: sceneryImage2,
-            likes: 20,
-            comments: 2
-        },
-        {
-            id: 3,
-            profileName: "Day walker",
-            profilePicture: <PersonIcon style={{ fontSize: 48 }}/>,
-            imgSrc: sceneryImage3,
-            likes: 19,
-            comments: 2
-        },
-        {
-            id: 4,
-            profileName: "Day walker",
-            profilePicture: <PersonIcon style={{ fontSize: 48 }}/>,
-            imgSrc: sceneryImage4,
-            likes: 100,
-            comments: 2
-        },
-        {
-            id: 5,
-            profileName: "Knight rider",
-            profilePicture: <PersonIcon style={{ fontSize: 48 }}/>,
-            imgSrc: sceneryImage5,
-            likes: 16,
-            comments: 2
-        },
-        {
-            id: 6,
-            profileName: "Day walker",
-            profilePicture: <PersonIcon style={{ fontSize: 48 }}/>,
-            imgSrc: sceneryImage6,
-            likes: 30,
-            comments: 2
-        },
-        {
-            id: 7,
-            profileName: "Day walker",
-            profilePicture: <PersonIcon style={{ fontSize: 48 }}/>,
-            imgSrc: sceneryImage7,
-            likes: 19,
-            comments: 2
-        },
-        {
-            id: 8,
-            profileName: "Knight rider",
-            profilePicture: <PersonIcon style={{ fontSize: 48 }}/>,
-            imgSrc: sceneryImage3,
-            likes: 76,
-            comments: 2
-        },
-        {
-            id: 9,
-            profileName: "Knight rider",
-            profilePicture: <PersonIcon style={{ fontSize: 48 }}/>,
-            imgSrc: sceneryImage6,
-            likes: 19,
-            comments: 2
-        },
-        {
-            id: 10,
-            profileName: "Day walker",
-            profilePicture: <PersonIcon style={{ fontSize: 48 }}/>,
-            imgSrc: sceneryImage2,
-            likes: 86,
-            comments: 2
-        }
-    ];
-
-    const handleOpenCommentsModal = () => {
-        setIsCommentsVisible(true);
-      };
-    
-      const handleCloseCommentsModal = () => {
-        setIsCommentsVisible(false);
-      };
-      
-    
-      return (
-        <div>
-          <h1 className="nameOfMuseum">{nameOfMuseum}</h1>
-          <EditProfile />
-          {data.map((item) => {
-  const likes = likesData.filter((likesItem) => likesItem.postId === item.id);
-  const likesCount = likes.length;
-
-
-  return (
-    <div key={item.id} style={{ marginBottom: '40px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', marginLeft: '5px' }}>
-        {item.profilePicture}
-        <h3 className="titleForPosts">{item.profileName}</h3>
-      </div>
-      <div style={{ width: 'auto', height: '250px', padding: '10px' }}>
-        <img src={item.imgSrc} alt="Card" style={{ width: '100%', height: '100%' }} />
-      </div>
-      <div style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '10px' }}>
-        <ThumbUpIcon fontSize="large" style={{ marginRight: '5px' }} />
-        <span>{likesCount || 0}</span>
-      </div>
-      <div style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '10px' }}>
-        <CommentIcon fontSize="large" style={{ marginRight: '5px' }} onClick={handleOpenCommentsModal} />
-        <span>{item.comments}</span>
-      </div>
-    </div>
-  );
-})}
- 
-          {/* Comments Modal */}
-          {isCommentsVisible && (
-            <ReactModal isOpen={isCommentsVisible} onRequestClose={handleCloseCommentsModal}>
-              {/* Comments data */}
-            </ReactModal>
-          )}
-
-            {/*Navigation m\bar*/}
-            <Navigation/>
-        </div>
-      );
+    const handleCommentClick = () => {
+        // Fetch the comments data from the backend API
+        fetch('/api/comments')
+            .then((response) => response.json())
+            .then((data) => {
+                setComments(data);
+            })
+            .catch((error) => {
+                console.error('Error fetching comments:', error);
+            });
     };
-    
-    export default Post;
+
+    const handleReplySubmit = (commentId) => {
+        const reply = {
+            commentId: commentId,
+            text: replyText,
+            userId: 1,
+            date: new Date().toISOString()
+        };
+
+        fetch('/api/replies', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(reply)
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setComments((prevComments) => {
+                    // Create a shallow copy of the previous comments state
+                    const updatedComments = [...prevComments];
+
+                    // Find the comment to update
+                    const commentIndex = updatedComments.findIndex((comment) => comment.id === commentId);
+
+                    if (commentIndex !== -1) {
+                        // Create a shallow copy of the comment
+                        const updatedComment = { ...updatedComments[commentIndex] };
+
+                        // Update the replies of the comment
+                        updatedComment.replies = [...updatedComment.replies, data];
+
+                        // Update the comment in the comments array
+                        updatedComments[commentIndex] = updatedComment;
+                    }
+
+                    return updatedComments;
+                });
+            })
+            .catch((error) => {
+                console.error('Error submitting reply:', error);
+            });
+
+        setReplyText('');
+        setReplyCommentId(null);
+    };
+
+
+    return (
+        <div className="post">
+            <img src="https://c4.wallpaperflare.com/wallpaper/108/140/869/digital-digital-art-artwork-fantasy-art-drawing-hd-wallpaper-thumb.jpg" alt="Post" />
+            <button style={buttonStyle} onClick={() => setLikes(likes + 1)}>
+                Likes: {likes}
+            </button>
+            <button style={buttonStyle} onClick={handleCommentClick}>
+                Comments
+            </button>
+            <div className="comments" style={commentsStyle}>
+                {comments.map((comment) => (
+                    <div key={comment.id} className="comment">
+                        <p className="comment-date">Date: {comment.date}</p>
+                        <p className="comment-text">{users[comment.userId]?.name}: {comment.text}</p>
+                        <div className="comment-replies">
+                            {replyCommentId === comment.id && (
+                                <div>
+                                    <input
+                                        type="text"
+                                        placeholder="Write a reply..."
+                                        value={replyText}
+                                        onChange={(e) => setReplyText(e.target.value)}
+                                    />
+                                    <button onClick={() => handleReplySubmit(comment.id)}>Send</button>
+                                </div>
+                            )}
+                            <button onClick={() => setReplyCommentId(comment.id)}>Reply</button>
+                            {comment.replies.map((reply) => (
+                                <div key={reply.id} className="reply">
+                                    <span className="reply-user">Reply by {users[reply.userId]?.name}</span>
+                                    <span className="reply-date"> - {new Date(reply.date).toLocaleString()}</span>
+                                    <div className="reply-text">{reply.text}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+const buttonStyle = {
+    marginBottom: '10px',
+    padding: '10px 20px',
+    fontSize: '16px',
+    backgroundColor: '#f1f1f1',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+};
+
+const commentsStyle = {
+    width: '100%',
+    backgroundColor: '#f1f1f1',
+    borderRadius: '8px',
+    padding: '10px',
+    marginTop: '20px',
+};
+
+export default Post;
