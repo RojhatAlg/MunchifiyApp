@@ -1,26 +1,16 @@
 package com.munch.pack;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Comment {
     private Long id;
     private String text;
     private Long userId;
-
     private String name;
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     private Date date;
-
-    public Comment() {
-    }
+    private List<Reply> replies;
 
     public Comment(Long id, String text, Long userId, String name, Date date) {
         this.id = id;
@@ -28,9 +18,10 @@ public class Comment {
         this.userId = userId;
         this.name = name;
         this.date = date;
+        this.replies = new ArrayList<>();
     }
 
-    // Getters and setters
+    // Getters and setters for the properties
 
     public Long getId() {
         return id;
@@ -56,18 +47,27 @@ public class Comment {
         this.userId = userId;
     }
 
-    public String getName(){ return name; }
-
-    public void setName(String name){ this.name = name; }
-
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                "username=" + name +
-                ", text='" + text + '\'' +
-                ", userId=" + userId +
-                '}';
+    public String getName() {
+        return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public List<Reply> getReplies() {
+        return replies;
+    }
+
+    public void addReply(Reply reply) {
+        replies.add(reply);
+    }
 }

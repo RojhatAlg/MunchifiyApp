@@ -1,6 +1,5 @@
 package com.munch.pack;
 
-import org.apache.catalina.User;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
@@ -10,12 +9,11 @@ import java.util.List;
 @Component
 public class CommentDao {
     private List<Comment> comments;
-    private List<User> users;
 
     public CommentDao() {
         comments = new ArrayList<>();
-        users = new ArrayList<>();
         loadCommentsFromDatabase();
+        loadRepliesFromDatabase();
     }
 
     private void loadCommentsFromDatabase() {
@@ -39,6 +37,30 @@ public class CommentDao {
         }
     }
 
+    private void loadRepliesFromDatabase() {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/projekt_smidig", "root", "amed2012")) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * from replies;");
+
+            while (resultSet.next()) {
+                Long id = resultSet.getLong("idReplies");
+                Long commentId = resultSet.getLong("idComments");
+                Long userId = resultSet.getLong("userId");
+                String text = resultSet.getString("text");
+                Date date = resultSet.getDate("date");
+
+                // Find the corresponding comment for the reply
+                Comment comment = findCommentById(commentId);
+                if (comment != null) {
+                    Reply reply = new Reply(id, text, commentId, date, userId);
+                    comment.addReply(reply);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public List<Comment> findAll() {
         return comments;
     }
@@ -55,5 +77,14 @@ public class CommentDao {
                 .max()
                 .orElse(0L);
         return maxId + 1;
+    }
+
+    private Comment findCommentById(Long commentId) {
+        for (Comment comment : comments) {
+            if (comment.getId().equals(commentId)) {
+                return comment;
+            }
+        }
+        return null;
     }
 }
