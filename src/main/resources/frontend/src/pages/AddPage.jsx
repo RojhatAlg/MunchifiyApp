@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Navigation from '../components2/Navigation';
+import EditProfile from '../components2/EditProfile';
+
 //import ImageSelectionScreen from './components/ImageSelectionScreen';
 
 function AddPage() {
@@ -43,6 +45,7 @@ function AddPage() {
   return (
     <div>
       <h1 className="nameOfMuseum">Munchify</h1>
+      <EditProfile />
       <div className="upload-button">
         <label htmlFor="image-upload" className="upload-label">
           <input

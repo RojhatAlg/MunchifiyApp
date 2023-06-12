@@ -10,6 +10,7 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import EditProfileMenu from './pages/EditProfileMenu'
 import EditProfile from './pages/EditProfilePage'
+import CommentTest from './pages/CommentTest'
 
 
 
@@ -26,7 +27,7 @@ function App() {
         <Route path="/notification" element={<NotificationPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/edit-profile-page" element={<EditProfile/>}></Route>
-        
+        <Route path="/comment" element={<CommentTest/>}></Route>
        
       </Routes>
     </Router>
