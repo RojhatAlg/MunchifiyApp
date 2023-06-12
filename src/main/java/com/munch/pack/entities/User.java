@@ -1,4 +1,4 @@
-package com.munch.pack;
+package com.munch.pack.entities;
 
 public class User {
     public User() {

@@ -1,5 +1,7 @@
-package com.munch.pack;
+package com.munch.pack.controllers;
 
+import com.munch.pack.entities.Likes;
+import com.munch.pack.dao.LikesDao;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,5 +1,7 @@
-package com.munch.pack;
+package com.munch.pack.controllers;
 
+import com.munch.pack.dao.RepliesDao;
+import com.munch.pack.entities.Reply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

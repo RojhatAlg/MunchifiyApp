@@ -1,12 +1,12 @@
-package com.munch.pack;
+package com.munch.pack.dao;
 
+import com.munch.pack.entities.User;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class UserDao {

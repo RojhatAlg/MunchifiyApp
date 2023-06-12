@@ -1,5 +1,6 @@
-package com.munch.pack;
+package com.munch.pack.dao;
 
+import com.munch.pack.entities.Likes;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

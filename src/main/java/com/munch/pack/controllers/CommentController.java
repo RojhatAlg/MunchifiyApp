@@ -1,5 +1,7 @@
-package com.munch.pack;
+package com.munch.pack.controllers;
 
+import com.munch.pack.entities.Comment;
+import com.munch.pack.dao.CommentDao;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
