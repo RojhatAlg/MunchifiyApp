@@ -16,7 +16,7 @@ public class LoginDao {
     public LoginDao(){
         loginInfo = new ArrayList();
         loadFromDatabase();
-        loginInfo.add(new Login("marius", "karius"));
+        loginInfo.add(new Login("dummyuser", "dummypassword"));
     }
 
     private void loadFromDatabase() {
