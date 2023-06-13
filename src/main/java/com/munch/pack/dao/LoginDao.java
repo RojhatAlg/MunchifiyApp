@@ -20,12 +20,12 @@ public class LoginDao {
     }
 
     private void loadFromDatabase() {
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/projekt_smidig", "root", "amed2012")){
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/munch_db", "root", "Passord123")){
             Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT id, username, password from users");
+            ResultSet resultSet = statement.executeQuery("SELECT idUser, username, password from user");
 
             while(resultSet.next()){
-                long id = resultSet.getLong("id");
+                long id = resultSet.getLong("idUser");
                 String username = resultSet.getString("username");
                 String password = resultSet.getString("password");
 
