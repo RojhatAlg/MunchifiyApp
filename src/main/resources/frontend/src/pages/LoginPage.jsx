@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../App2.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,6 +12,7 @@ function LoginPage() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("")
+
 
   const navigate = useNavigate()
 
@@ -29,13 +30,16 @@ function LoginPage() {
     if (response.ok){
       navigate("/home")
       console.log("successfully logged inn")
+    }else{
+      console.log("login failed")
+
+      }
     }
 
-  }
-  function handleSignup(){
+    function handleSignup(){
     //navigate("/register")
     console.log("B")
-  }
+    }
 
   return (
     <div>
