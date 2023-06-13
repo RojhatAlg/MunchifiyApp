@@ -12,11 +12,13 @@ import sceneryImage2 from '../../assets/scenery2.jpg';
 import sceneryImage3 from '../../assets/scenery3.jpg';
 import sceneryImage4 from '../../assets/scenery4.jpg';
 import sceneryImage5 from '../../assets/scenery4.jpg';
+import { useNavigate } from 'react-router-dom';
 
 
 Modal.setAppElement('#root');
 
 const SearchPage = () => {
+  const navigate = useNavigate()
   const [isCommentsVisible, setIsCommentsVisible] = useState(false);
   const [likesData, setLikesData] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
@@ -29,7 +31,7 @@ const SearchPage = () => {
       id: 1,
       profileName: 'Knight rider',
       profilePicture: <PersonIcon style={{ fontSize: 48 }} />,
-      imgSrc: sceneryImage,
+      imgSrc: sceneryImage3,
       likes: 0,
       comments: 0,
     },
@@ -45,7 +47,7 @@ const SearchPage = () => {
       id: 3,
       profileName: 'Day walker',
       profilePicture: <PersonIcon style={{ fontSize: 48 }} />,
-      imgSrc: sceneryImage3,
+      imgSrc: sceneryImage,
       likes: 0,
       comments: 0,
     },
@@ -143,6 +145,10 @@ const SearchPage = () => {
   
     setNewComment('');
   };
+
+  function handleNavigation(){
+    navigate("/follower");
+  }
   
 
   const inputStyles = {
@@ -197,8 +203,10 @@ const SearchPage = () => {
         return (
           <div key={item.id} style={{ marginBottom: '40px' }}>
             <div style={{ display: 'flex', alignItems: 'center', marginLeft: '5px' }}>
-              {item.profilePicture}
-              <h3 className="titleForPosts">{item.profileName}</h3>
+            {item.profilePicture}
+        <button onClick={handleNavigation} className="titleForPosts">
+          <h3>{item.profileName}</h3>
+        </button>
             </div>
             <div style={{ width: 'auto', height: '250px', padding: '10px' }}>
               <img src={item.imgSrc} alt="Card" style={{ width: '100%', height: '100%' }} />

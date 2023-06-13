@@ -11,6 +11,7 @@ import SignupPage from './pages/SignupPage';
 import EditProfileMenu from './pages/EditProfileMenu'
 import EditProfile from './pages/EditProfilePage'
 import CommentTest from './pages/CommentTest'
+import FollowerPage from './components2/FollowerScreen'
 
 
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/edit-profile-page" element={<EditProfile/>}></Route>
         <Route path="/comment" element={<CommentTest/>}></Route>
+        <Route path="/follower" element={<FollowerPage/>}></Route>
        
       </Routes>
     </Router>
