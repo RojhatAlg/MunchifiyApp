@@ -1,6 +1,6 @@
 
 import './App2.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Post from './components/Post/Post'
 import SearchPage from './pages/SearchPage';
 import AddPage from './pages/AddPage';
@@ -19,6 +19,7 @@ function App() {
   return (
     <Router>
       <Routes>
+          <Route path="*" element={<Navigate to="/login" />} />
       <Route path="/login" element={<LoginPage />}></Route>
       <Route path="register" element={<SignupPage/>}></Route>
       <Route path="edit-profile" element={<EditProfileMenu/>}></Route>
