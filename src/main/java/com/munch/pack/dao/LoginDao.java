@@ -45,7 +45,7 @@ public class LoginDao {
         boolean isUser = false;
         for (Login user : loginInfo){
             if (user.getUsername().equals(login.getUsername()) &&
-            user.getPassword().equals(user.getPassword())){
+            user.getPassword().equals(login.getPassword())){
                 isUser =  true;
             }
         }
