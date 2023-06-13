@@ -33,7 +33,7 @@ function LoginPage() {
 
   }
   function handleSignup(){
-    //navigate("/register")
+    navigate("/register")
     console.log("B")
   }
 
