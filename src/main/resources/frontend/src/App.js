@@ -19,7 +19,7 @@ function App() {
   return (
     <Router>
       <Routes>
-      <Route path="/" element={<LoginPage />}></Route>
+      <Route path="/login" element={<LoginPage />}></Route>
       <Route path="register" element={<SignupPage/>}></Route>
       <Route path="edit-profile" element={<EditProfileMenu/>}></Route>
         <Route path="/home" element={<Post />} />
@@ -30,6 +30,7 @@ function App() {
         <Route path="/edit-profile-page" element={<EditProfile/>}></Route>
         <Route path="/comment" element={<CommentTest/>}></Route>
         <Route path="/follower" element={<FollowerPage/>}></Route>
+          <Route path="/signup" element={<SignupPage/>}></Route>
        
       </Routes>
     </Router>

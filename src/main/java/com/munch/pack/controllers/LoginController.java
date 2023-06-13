@@ -13,11 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/login")
 public class LoginController {
     private LoginDao loginDao;
-    private UserDao userdao;
 
-    public LoginController(){
-        loginDao = new LoginDao();
-
+    public LoginController(LoginDao loginDao) {
+        this.loginDao = loginDao;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -33,12 +31,10 @@ public class LoginController {
             // Add the cookie to the response
             response.addCookie(cookie);
 
-
             return ResponseEntity.ok(id);
-        }else{
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body((long)-1);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body((long) -1);
         }
     }
-
-
 }
+

@@ -37,9 +37,9 @@ function LoginPage() {
 
 
   function handleSignup(){
-    //navigate("/register")
-    console.log("B")
-  }
+    navigate("/signup");
+  };
+
 
   return (
     <div>

@@ -2,6 +2,8 @@ package com.munch.pack.dao;
 
 import com.munch.pack.entities.User;
 import org.springframework.stereotype.Component;
+import java.util.logging.Logger;
+
 
 import java.util.List;
 
@@ -14,7 +16,7 @@ public class UserDao {
 
     public UserDao() {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munch_db", "root", "Passord123");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "amed2012");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -26,12 +28,25 @@ public class UserDao {
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM user")) {
             while (resultSet.next()) {
-                String username = resultSet.getString("username");
-                User user = new User(username);
+                Long id = resultSet.getLong("idUser");
+                String name = resultSet.getString("Name");
+                String surname = resultSet.getString("Surname");
+                String username = resultSet.getString("Username");
+                String email = resultSet.getString("Email");
+                String password = resultSet.getString("Password");
+
+                User user = new User();
+                user.setId(id);
+                user.setName(name);
+                user.setSurname(surname);
+                user.setUsername(username);
+                user.setEmail(email);
+                user.setPassword(password);
+
                 users.add(user);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+
         }
 
         return users;
@@ -44,7 +59,7 @@ public class UserDao {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    String username = resultSet.getString("username");
+                    String username = resultSet.getString("UserName");
                     user = new User(username);
                 }
             }
@@ -92,7 +107,7 @@ public class UserDao {
     public User findById(Long id) {
         User user = null;
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munch_db", "root", "Passord123")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "amed2012")) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM user WHERE idUser = ?");
             statement.setLong(1, id);
 
@@ -108,6 +123,18 @@ public class UserDao {
         }
 
         return user;
+    }
+
+    public void save(User user) throws SQLException {
+        String sql = "INSERT INTO user (Name, Surname, Email, UserName, Password) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getSurname());
+            statement.setString(3, user.getEmail());
+            statement.setString(4, user.getUsername());
+            statement.setString(5, user.getPassword());
+            statement.executeUpdate();
+        }
     }
 }
 
