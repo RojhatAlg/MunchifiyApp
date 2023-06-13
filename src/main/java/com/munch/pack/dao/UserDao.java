@@ -26,9 +26,8 @@ public class UserDao {
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM user")) {
             while (resultSet.next()) {
-                Long id = resultSet.getLong("idUser");
-                String name = resultSet.getString("Name");
-                User user = new User(id, name);
+                String username = resultSet.getString("username");
+                User user = new User(username);
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -45,8 +44,8 @@ public class UserDao {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    String name = resultSet.getString("Name");
-                    user = new User(id, name);
+                    String username = resultSet.getString("username");
+                    user = new User(username);
                 }
             }
         } catch (SQLException e) {
@@ -57,8 +56,12 @@ public class UserDao {
     }
 
     public void addUser(User user) {
-        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO user (Name) VALUES (?)")) {
+        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO user (Name, Surname, Username, Email, Password) VALUES (?, ?, ?, ?, ?)")) {
             statement.setString(1, user.getName());
+            statement.setString(2, user.getSurname());
+            statement.setString(3, user.getUsername());
+            statement.setString(4, user.getEmail());
+            statement.setString(5, user.getPassword());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

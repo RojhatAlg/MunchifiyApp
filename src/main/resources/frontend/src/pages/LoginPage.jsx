@@ -11,7 +11,7 @@ function LoginPage() {
   const passwrd = "password";
 
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("")
+  const [password, setPassword] = useState("");
 
   const navigate = useNavigate()
 
