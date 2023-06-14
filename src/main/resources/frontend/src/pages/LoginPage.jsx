@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import '../App.css';
+import '../App2.css';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -12,6 +12,11 @@ function LoginPage() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("")
+  const [userId, setUserId] = useState(0);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+
+
 
   const navigate = useNavigate()
 
@@ -28,12 +33,37 @@ function LoginPage() {
 
     if (response.ok){
       navigate("/home")
+      setLoggedIn(true)
       console.log("successfully logged inn")
     }else{
       console.log("login failed")
 
       }
     }
+
+  useEffect(() => {
+    if(loggedIn){
+      async function fetchUserId(){
+        const res = await fetch("http://localhost:8080/api/login")
+        const data = await res.json();
+        setUserId(data);
+        console.log(data)
+      }
+      fetchUserId()
+    }
+  }, [loggedIn])
+
+
+
+  if (loggedIn){
+    function getCookieValue(name) {
+      return Cookies.get(name);
+    }
+    const cookieValue = getCookieValue('user_id');
+    console.log(cookieValue);
+  }
+
+
 
 
   function handleSignup(){
