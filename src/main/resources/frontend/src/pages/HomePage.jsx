@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import ReactModal from 'react-modal';
-import '../../App2.css';
+import '../App.css';
 import Modal from 'react-modal';
-import Navigation from '../../components2/Navigation'
+import Navigation from '../components/Navigation'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import CommentIcon from '@mui/icons-material/Comment';
 import PersonIcon from '@mui/icons-material/AccountCircleOutlined';
-import EditProfile from '../../components2/EditProfile'
-import sceneryImage from '../../assets/scenery.jpg';
-import sceneryImage2 from '../../assets/scenery2.jpg';
-import sceneryImage3 from '../../assets/scenery3.jpg';
-import sceneryImage4 from '../../assets/scenery4.jpg';
-import sceneryImage5 from '../../assets/scenery4.jpg';
+import EditProfile from '../components/EditProfile'
+import sceneryImage from '../assets/scenery.jpg';
+import sceneryImage2 from '../assets/scenery2.jpg';
+import sceneryImage3 from '../assets/scenery3.jpg';
+import sceneryImage4 from '../assets/scenery4.jpg';
+import sceneryImage5 from '../assets/scenery4.jpg';
 import { useNavigate } from 'react-router-dom';
 
 
