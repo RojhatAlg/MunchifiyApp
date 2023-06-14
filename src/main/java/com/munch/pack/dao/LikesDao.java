@@ -64,6 +64,36 @@ public class LikesDao {
         return false;
     }
 
+    public List<Likes> findAll() throws SQLException {
+        List<Likes> likes = new ArrayList<>();
+        String query = "SELECT * FROM likes";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Likes like = extractLikesFromResultSet(resultSet);
+                likes.add(like);
+            }
+        }
+        return likes;
+    }
+
+    public Likes save(Likes like) throws SQLException {
+        String query = "INSERT INTO likes (UserId, PostId) VALUES (?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setLong(1, like.getUserId());
+            statement.setLong(2, like.getPostId());
+            statement.executeUpdate();
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                like.setId(generatedKeys.getLong(1));
+                return like;
+            } else {
+                throw new SQLException("Failed to save like, no ID obtained.");
+            }
+        }
+    }
+
     // Other methods for updating, deleting, and retrieving individual likes can be added here
 
     // Remember to handle SQLException appropriately in your application

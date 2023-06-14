@@ -33,4 +33,20 @@ public class PostController {
     public void createPost(@RequestBody Post post) throws SQLException {
         postDao.addPost(post);
     }
+
+    @PutMapping("/{postId}")
+    public void updatePost(@PathVariable long postId, @RequestBody Post post) throws SQLException {
+        post.setId(postId);
+        postDao.updatePost(post);
+    }
+
+    @DeleteMapping("/{postId}")
+    public void deletePost(@PathVariable long postId) throws SQLException {
+        postDao.deletePost(postId);
+    }
+
+    @GetMapping("/single/{postId}")
+    public Post getPostById(@PathVariable long postId) throws SQLException {
+        return postDao.getPostById(postId);
+    }
 }
