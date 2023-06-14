@@ -5,18 +5,14 @@ import Modal from 'react-modal';
 import Navigation from '../components/Navigation';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import CommentIcon from '@mui/icons-material/Comment';
-import PersonIcon from '@mui/icons-material/AccountCircleOutlined';
-import EditProfile from '../components/EditProfile'
-import sceneryImage from '../assets/scenery.jpg';
-import sceneryImage2 from '../assets/scenery2.jpg';
-import sceneryImage3 from '../assets/scenery3.jpg';
-import sceneryImage4 from '../assets/scenery4.jpg';
-import sceneryImage5 from '../assets/scenery5.jpg';
+import EditProfile from '../components/EditProfile';
+import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 
 Modal.setAppElement('#root');
 
 const SearchPage = () => {
+  const navigate = useNavigate();
   const [isCommentsVisible, setIsCommentsVisible] = useState(false);
   const [likesData, setLikesData] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
@@ -24,52 +20,12 @@ const SearchPage = () => {
   const [comments, setComments] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const nameOfMuseum = "Munchify"
-  const [data, setData] = useState([
-    {
-      id: 1,
-      profileName: 'Knight rider',
-      profilePicture: <PersonIcon style={{ fontSize: 48 }} />,
-      imgSrc: sceneryImage,
-      likes: 0,
-      comments: 0,
-    },
-    {
-      id: 2,
-      profileName: 'Day walker',
-      profilePicture: <PersonIcon style={{ fontSize: 48 }} />,
-      imgSrc: sceneryImage2,
-      likes: 0,
-      comments: 0,
-    },
-    {
-      id: 3,
-      profileName: 'Day walker',
-      profilePicture: <PersonIcon style={{ fontSize: 48 }} />,
-      imgSrc: sceneryImage3,
-      likes: 0,
-      comments: 0,
-    },
-    {
-      id: 4,
-      profileName: 'Day walker',
-      profilePicture: <PersonIcon style={{ fontSize: 48 }} />,
-      imgSrc: sceneryImage4,
-      likes: 0,
-      comments: 0,
-    },
-    {
-      id: 5,
-      profileName: 'Knight rider',
-      profilePicture: <PersonIcon style={{ fontSize: 48 }} />,
-      imgSrc: sceneryImage5,
-      likes: 0,
-      comments: 0,
-    },
-  ]);
+  const nameOfMuseum = "Munchify";
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     fetchLikesData();
+    getAllPost();
   }, []);
 
   const fetchLikesData = () => {
@@ -101,6 +57,26 @@ const SearchPage = () => {
     setIsCommentsVisible(false);
   };
 
+  const getAllPost = () => {
+    fetch('/api/post')
+      .then((response) => response.json())
+      .then((postData) => {
+        console.log('Post Data:', postData);
+        const modifiedData = postData.map((item) => ({
+          id: item.id,
+          bio: item.bio,
+          photo: item.photo,
+          nrLikes: item.nrLikes,
+          nrFavorites: item.nrFavorites,
+          comments: item.comments,
+        }));
+        setData(modifiedData);
+      })
+      .catch((error) => {
+        console.error('Error fetching posts:', error);
+      });
+  };
+
   const handleLikeToggle = (postId) => {
     setLikedPosts((prevLikedPosts) => {
       if (prevLikedPosts.includes(postId)) {
@@ -125,51 +101,23 @@ const SearchPage = () => {
 
   const handleCommentSubmit = (e, postId) => {
     e.preventDefault();
-    console.log('New Comment:', newComment);
-  
-    setData((prevData) => {
-      return prevData.map((item) => {
-        if (item.id === postId) {
-          const updatedItem = { ...item, comments: item.comments + 1 };
-          return updatedItem;
-        }
-        return item;
-      });
+
+    // Update comments in the state
+    setComments((prevComments) => {
+      const newCommentObj = {
+        postId: postId,
+        comment: newComment,
+      };
+      return [...prevComments, newCommentObj];
     });
-  
-    setComments((prevComments) => [
-      ...prevComments,
-      { postId: postId, username: 'Your Name', text: newComment },
-    ]);
-  
+
+    // Clear the comment input
     setNewComment('');
   };
-  
 
-  const inputStyles = {
-    marginRight: '10px',
-    padding: '5px',
-    width: '200px',
-  };
-
-  const commentStyles = {
-    display: 'flex',
-    alignItems: 'center',
-    marginTop: '10px',
-  };
-
-  const profilePicStyles = {
-    width: '30px',
-    height: '30px',
-    borderRadius: '50%',
-    marginRight: '10px',
-  };
-
-  const usernameStyles = {
-    fontWeight: 'bold',
-    marginRight: '5px',
-  };
-
+  function handleNavigation() {
+    navigate("/follower");
+  }
   const handleSearch = (e) => {
     e.preventDefault();
     console.log('Search Query:', searchQuery);
@@ -179,21 +127,26 @@ const SearchPage = () => {
   const searchContainerStyles = {
     display: 'flex',
     alignItems: 'center',
-    marginTop: '10px',
+    marginLeft: '20%',
+    marginRight: '20%'
   };
 
   const searchInputStyles = {
     marginRight: '10px',
-    padding: '5px',
-    width: '200px',
+    padding: '3%',
+    width: '100%',
   };
 
   return (
     <div>
-      <h1 className="nameOfMuseum">{nameOfMuseum}</h1>
-      <EditProfile />
 
-      {/* Search Box */}
+      <div className="search-page">
+        <div className="search-header">
+          <h2 className='nameOfMuseum'>{nameOfMuseum}</h2>
+        </div>
+        <EditProfile />
+
+        {/* Search Box */}
       <div style={searchContainerStyles}>
         <input
           type="text"
@@ -207,61 +160,43 @@ const SearchPage = () => {
         </button>
       </div>
 
-      {data.map((item) => {
-        const liked = likedPosts.includes(item.id);
-        const initialLikes = liked ? item.likes + likedPosts.filter((id) => id === item.id).length : item.likes;
+        <div className="search-body">
+          {data.map((item) => (
+            <div key={item.id} className="post">
+              <div className="post-header">
+               
+                <p style={{ display: 'flex', alignItems: 'center', marginLeft: '4%' }}>{item.bio}</p>
+                <div className="post-image">
+                <img src={item.photo} alt="Post" style={{ width: '90%', height: '250px', marginLeft: '4%', marginRight: '4%' }} />
+              </div>
+                <div className="post-actions">
+                  <div style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '4%' }} onClick={() => handleLikeToggle(item.id)}>
+                    <ThumbUpIcon />
+                    <span>{item.nrLikes}</span>
+                  </div>
+                  <div style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '4%' }} onClick={() => handleOpenCommentsModal(item.id)}>
+                    <CommentIcon />
+                    <span>{item.comments}16</span>
+                  </div>
+                </div>
+              </div>
 
-        return (
-          <div key={item.id} style={{ marginBottom: '40px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', marginLeft: '5px' }}>
-              {item.profilePicture}
-              <h3 className="titleForPosts">{item.profileName}</h3>
-            </div>
-            <div style={{ width: 'auto', height: '250px', padding: '10px' }}>
-              <img src={item.imgSrc} alt="Card" style={{ width: '100%', height: '100%' }} />
-            </div>
-            <div
-              style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '10px' }}
-              onClick={() => handleLikeToggle(item.id)}
-            >
-              <ThumbUpIcon color={liked ? 'primary' : 'inherit'} />
-              <span style={{ marginLeft: '3px' }}>{initialLikes}</span>
-            </div>
-            <div
-              style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '10px' }}
-              onClick={() => handleOpenCommentsModal(item.id)}
-            >
-              <CommentIcon />
-              <span style={{ marginLeft: '3px' }}>{item.comments}</span>
-            </div>
-          </div>
-        );
-      })}
+              
 
-      {/* Comments Modal */}
+            
+            </div>
+          ))}
+        </div>
+      </div>
+
       <ReactModal
-        isOpen={Boolean(isCommentsVisible)}
+        isOpen={isCommentsVisible}
         onRequestClose={handleCloseCommentsModal}
         contentLabel="Comments Modal"
+        className="modal"
       >
         <h2>Comments</h2>
-        {comments.map((comment, index) => (
-          <div key={index} style={commentStyles}>
-            <img src={sceneryImage} alt="Profile" style={profilePicStyles} />
-            <span style={usernameStyles}>{comment.username}:</span>
-            <span>{comment.text}</span>
-          </div>
-        ))}
-        <form onSubmit={(e) => handleCommentSubmit(e, isCommentsVisible)}>
-          <input
-            type="text"
-            style={inputStyles}
-            placeholder="Add a comment"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-          />
-          <button type="submit">Submit</button>
-        </form>
+        <button onClick={handleCloseCommentsModal}>Close</button>
       </ReactModal>
       <Navigation />
     </div>
