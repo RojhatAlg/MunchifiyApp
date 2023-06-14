@@ -63,12 +63,23 @@ public class User {
     private String password;
     private String username;
 
-    public User(String name, String surname, String username, String email, String password) {
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    private String photo;
+
+    public User(String name, String surname, String username, String email, String password, String photo) {
         this.name = name;
         this.surname = surname;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.photo = photo;
     }
 
     public User(String username) {

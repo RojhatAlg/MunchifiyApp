@@ -16,7 +16,7 @@ public class UserDao {
 
     public UserDao() {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "amed2012");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "passord123");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -34,6 +34,7 @@ public class UserDao {
                 String username = resultSet.getString("Username");
                 String email = resultSet.getString("Email");
                 String password = resultSet.getString("Password");
+                String photo = resultSet.getString("Photo");
 
                 User user = new User();
                 user.setId(id);
@@ -42,6 +43,7 @@ public class UserDao {
                 user.setUsername(username);
                 user.setEmail(email);
                 user.setPassword(password);
+                user.setPhoto(photo);
 
                 users.add(user);
             }
@@ -71,12 +73,13 @@ public class UserDao {
     }
 
     public void addUser(User user) {
-        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO user (Name, Surname, Username, Email, Password) VALUES (?, ?, ?, ?, ?)")) {
+        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO user (Name, Surname, Username, Email, Password, Photo) VALUES (?, ?, ?, ?, ?, ?)")) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getSurname());
             statement.setString(3, user.getUsername());
             statement.setString(4, user.getEmail());
             statement.setString(5, user.getPassword());
+            statement.setString(6, user.getPhoto());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -126,13 +129,14 @@ public class UserDao {
     }
 
     public void save(User user) throws SQLException {
-        String sql = "INSERT INTO user (Name, Surname, Email, UserName, Password) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO user (Name, Surname, Email, UserName, Password, Photo) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getSurname());
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getUsername());
             statement.setString(5, user.getPassword());
+            statement.setString(6, user.getPhoto());
             statement.executeUpdate();
         }
     }
