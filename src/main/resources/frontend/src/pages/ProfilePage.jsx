@@ -1,6 +1,6 @@
 import React from 'react';
-import '../App2.css';
-import Navigation from '../components2/Navigation';
+import '../App.css';
+import Navigation from '../components/Navigation';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import CommentIcon from '@mui/icons-material/Comment';
 import sceneryImage2 from '../assets/scenery2.jpg';
