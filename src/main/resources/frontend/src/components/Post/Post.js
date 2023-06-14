@@ -242,33 +242,6 @@ const SearchPage = () => {
         );
       })}
 
-      {/* Comments Modal */}
-      <ReactModal
-        isOpen={Boolean(isCommentsVisible)}
-        onRequestClose={handleCloseCommentsModal}
-        contentLabel="Comments Modal">
-        <h2>Comments</h2>
-        {comments.map((comment, index) => (
-          <div key={index} style={commentStyles}>
-            <img src={sceneryImage} alt="Profile" style={profilePicStyles} />
-            <span style={usernameStyles}>{comment.username}:</span>
-            <span>{comment.text}</span>
-          </div>
-        ))}
-        <form onSubmit={(e) => handleCommentSubmit(e, isCommentsVisible)}>
-          <input
-            type="text"
-            style={inputStyles}
-            placeholder="Add a comment"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-          />
-          <button type="submit">Submit</button>
-        </form>
-      </ReactModal>
-      <Navigation />
-    </div>
-  );
-};
+     
 
 export default SearchPage;
