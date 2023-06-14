@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../App2.css';
+import '../App.css';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import CommentIcon from '@mui/icons-material/Comment';
 import sceneryImage2 from '../assets/scenery2.jpg';

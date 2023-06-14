@@ -1,6 +1,6 @@
 import React from 'react';
-import '../App2.css';
-import Navigation from '../components2/Navigation';
+import '../App.css';
+import Navigation from '../components/Navigation';
 
 function NotificationPage() {
   const message1= "like your post";

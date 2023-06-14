@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import Navigation from '../components2/Navigation';
-import EditProfile from '../components2/EditProfile';
+import Navigation from '../components/Navigation';
+import EditProfile from '../components/EditProfile';
 
 //import ImageSelectionScreen from './components/ImageSelectionScreen';
 

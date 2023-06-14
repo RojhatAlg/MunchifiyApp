@@ -17,7 +17,7 @@ public class RepliesDao {
     }
 
     private void loadRepliesFromDatabase() {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munch_db", "root", "Passord123")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "passord123")) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM replies");
 
@@ -41,7 +41,7 @@ public class RepliesDao {
     }
 
     public Reply save(Reply reply) {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munch_db", "root", "Passord123")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/projekt_smidig", "root", "amed2012")) {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO replies (idComments, text, userId, date) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setLong(1, reply.getCommentId());
             statement.setString(2, reply.getText());

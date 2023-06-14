@@ -1,5 +1,5 @@
 import React from 'react';
-import '../App2.css';
+import '../App.css';
 import backButton from '../assets/backButton.png'
 import { useNavigate } from 'react-router-dom';
 

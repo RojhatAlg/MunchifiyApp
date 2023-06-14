@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import '../App2.css';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 
 
 function LoginPage() {
@@ -68,9 +67,9 @@ function LoginPage() {
 
 
   function handleSignup(){
-    //navigate("/register")
-    console.log("B")
-  }
+    navigate("/signup");
+  };
+
 
   return (
     <div>

@@ -6,7 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import NotificationIcon from '@mui/icons-material/Notifications';
 import ProfileIcon from '@mui/icons-material/Person';
-import "./test.css"
+import "../App.css"
 
 
 function Navigation() {

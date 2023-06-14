@@ -453,6 +453,15 @@
   h1 {
     font-family: 'CustomFont1', sans-serif;
   }
+
+   /*Bottom navigationbar*/
+   .bottom-navigation {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+  }
   
   
   

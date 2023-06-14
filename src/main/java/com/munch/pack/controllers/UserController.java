@@ -1,6 +1,5 @@
 package com.munch.pack.controllers;
 
-import com.munch.pack.entities.Login;
 import com.munch.pack.entities.User;
 import com.munch.pack.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +14,27 @@ import java.util.List;
 public class UserController {
     private UserDao userDao;
 
-    private List<User> createuserInfo;
+    public ResponseEntity<String> signUpUser(@RequestBody User user) {
+        try {
+            // Save the user object to the database
+            userDao.save(user);
+            return ResponseEntity.ok("User signup successful");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to sign up user");
+        }
+    }
 
     @Autowired
     public UserController(UserDao userDao) {
-        userDao = new UserDao();
+        this.userDao = userDao;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping
-    public  void signUp(@RequestBody User user){
-        createuserInfo.add(user);
+    public ResponseEntity<Void> signUp(@RequestBody User user) {
+        userDao.addUser(user);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -35,7 +44,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User getUser(@PathVariable Long id) {
-        return userDao.findById(id);
+        return userDao.getUserById(id);
     }
 
     // Other methods for handling user-related requests

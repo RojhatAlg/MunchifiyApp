@@ -1,5 +1,5 @@
 import React from 'react';
-import '../App2.css';
+import '../App.css';
 import DotIcon from '@mui/icons-material/MoreHoriz';
 import { useNavigate } from 'react-router';
 

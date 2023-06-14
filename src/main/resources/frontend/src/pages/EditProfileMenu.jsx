@@ -1,7 +1,7 @@
 import React from 'react';
 import backButton from '../assets/backButton.png';
 import { useNavigate } from 'react-router';
-import '../App2.css';
+import '../App.css';
 
 function EditProfileMenu() {
   const profile = "Profile";

@@ -20,9 +20,9 @@ public class LoginDao {
     }
 
     private void loadFromDatabase() {
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/munch_db", "root", "Passord123")){
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "passord123")){
             Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT idUser, username, password from user");
+            ResultSet resultSet = statement.executeQuery("SELECT idUser, UserName, password from user");
 
             while(resultSet.next()){
                 long id = resultSet.getLong("idUser");
@@ -55,7 +55,7 @@ public class LoginDao {
         boolean isUser = false;
         for (Login user : loginInfo){
             if (user.getUsername().equals(login.getUsername()) &&
-            user.getPassword().equals(login.getPassword())){
+            user.getPassword().equals(user.getPassword())){
                 isUser =  true;
             }
         }
