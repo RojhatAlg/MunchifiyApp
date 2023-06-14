@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import '../App2.css';
 import Navigation from '../components2/Navigation';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
@@ -8,8 +8,23 @@ import sceneryImage3 from '../assets/scenery3.jpg';
 import sceneryImage4 from '../assets/scenery4.jpg';
 import sceneryImage5 from '../assets/scenery5.jpg';
 import sceneryImage7 from '../assets/scenery7.jpg';
+import {useState} from "react";
+
 
 function MyProfilePage() {
+
+  const [userId, setUserId] = useState(0)
+
+
+  useEffect(() => {
+    async function fetchUserId(){
+      const res = await fetch("http://localhost:8080/api/login")
+      const data = await res.json();
+      setUserId(data);
+      console.log(data)
+    }
+    fetchUserId()
+  }, [])
   const users = [
     {
       id: 1,
@@ -41,6 +56,10 @@ function MyProfilePage() {
     }
   ];
 
+
+
+
+  console.log(userId)
   // Title
   const nameOfMuseum = "Munchify";
 

@@ -37,8 +37,6 @@ function HelloWorld() {
     }, 3000);
   };
 
-  
-
   const data = [
     {
       id: 1,
