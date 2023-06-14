@@ -21,23 +21,27 @@ public class CommentDao {
     private void loadCommentsFromDatabase() {
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "passord123")) {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * from comments, user WHERE  comments.UserId = user.idUser;");
+            ResultSet resultSet = statement.executeQuery("SELECT c.idComments, c.Comment, c.UserId, c.Date, u.name, u.profilePicture " +
+                    "FROM comments c " +
+                    "JOIN users u ON c.UserId = u.idUser;");
 
             while (resultSet.next()) {
                 Long id = resultSet.getLong("idComments");
-                String name = resultSet.getString("name");
-                Long postId = resultSet.getLong("PostId");
-                Long userId = resultSet.getLong("UserId");
                 String text = resultSet.getString("Comment");
+                Long userId = resultSet.getLong("UserId");
                 Date date = resultSet.getDate("Date");
+                Long postId = resultSet.getLong("postId");
+                String profilePicture = resultSet.getString("profilePicture");
 
-                Comment comment = new Comment(id, text, userId, name, date);
+                Comment comment = new Comment(id, text, userId, postId, date, profilePicture);
+                comment.setProfilePicture(profilePicture);
                 comments.add(comment);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     private void loadRepliesFromDatabase() {
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "passord123")) {
@@ -67,11 +71,6 @@ public class CommentDao {
         return comments;
     }
 
-    public Comment save(Comment comment) {
-        comment.setId(generateNextId());
-        comments.add(comment);
-        return comment;
-    }
 
     private Long generateNextId() {
         Long maxId = comments.stream()
@@ -89,4 +88,29 @@ public class CommentDao {
         }
         return null;
     }
+
+    public Comment save(Comment comment) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "passord123")) {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO comments (PostId, UserId, Comment, Date) VALUES (?, ?, ?, ?)");
+            statement.setLong(1, comment.getPostId());
+            statement.setLong(2, comment.getUserId());
+            statement.setString(3, comment.getText());
+            statement.setDate(4, (Date) comment.getDate());
+
+            int rowsInserted = statement.executeUpdate();
+            if (rowsInserted > 0) {
+                // Comment was successfully inserted into the database
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    comment.setId(generatedKeys.getLong(1));
+                    comments.add(comment);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return comment;
+    }
+
 }

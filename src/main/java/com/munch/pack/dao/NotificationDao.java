@@ -57,7 +57,7 @@ public class NotificationDao {
         long id = resultSet.getLong("id");
         long userId = resultSet.getLong("UserId");
         String message = resultSet.getString("Message");
-        LocalDateTime timestamp = resultSet.getTimestamp("Timestamp").toLocalDateTime();
+        LocalDateTime timestamp = resultSet.getTimestamp("Time").toLocalDateTime();
         boolean isRead = resultSet.getBoolean("IsRead");
 
         Notification notification = new Notification();

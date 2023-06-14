@@ -373,7 +373,7 @@
     padding: 10px 20px;
     background-color: #ffffff;
     color: #000000;
-    border-width: 2% solid black;
+    border: 2px solid black;
     border-radius: 10%;
     cursor: pointer;
     width: 40%;
@@ -438,7 +438,7 @@
   @font-face {
     font-family: 'CustomFont1';
     src: url('./font/GirottMunch-BoldBackslant.otf') format('opentype'),
-         url('.//font/GirottMunch-BoldBackslant.ttf') format('truetype');
+         url('./font/GirottMunch-BoldBackslant.ttf') format('truetype');
     /* Add more font formats if necessary */
   }
   
@@ -462,6 +462,8 @@
     width: 100%;
     z-index: 1000;
   }
+
+
   
   
   

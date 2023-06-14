@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
-import '../App2.css';
+import React, {useEffect, useState} from 'react';
+import '../App.css';
+import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
 

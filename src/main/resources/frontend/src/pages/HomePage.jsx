@@ -18,80 +18,56 @@ import { useNavigate } from 'react-router-dom';
 Modal.setAppElement('#root');
 
 const SearchPage = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [isCommentsVisible, setIsCommentsVisible] = useState(false);
-  const [likesData, setLikesData] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState([]);
 
-  const nameOfMuseum = "Munchify"
-  const [data, setData] = useState([
-    {
-      id: 1,
-      profileName: 'Knight rider',
-      profilePicture: <PersonIcon style={{ fontSize: 48 }} />,
-      imgSrc: sceneryImage3,
-      likes: 0,
-      comments: 0,
-    },
-    {
-      id: 2,
-      profileName: 'Day walker',
-      profilePicture: <PersonIcon style={{ fontSize: 48 }} />,
-      imgSrc: sceneryImage2,
-      likes: 0,
-      comments: 0,
-    },
-    {
-      id: 3,
-      profileName: 'Day walker',
-      profilePicture: <PersonIcon style={{ fontSize: 48 }} />,
-      imgSrc: sceneryImage,
-      likes: 0,
-      comments: 0,
-    },
-    {
-      id: 4,
-      profileName: 'Day walker',
-      profilePicture: <PersonIcon style={{ fontSize: 48 }} />,
-      imgSrc: sceneryImage4,
-      likes: 0,
-      comments: 0,
-    },
-    {
-      id: 5,
-      profileName: 'Knight rider',
-      profilePicture: <PersonIcon style={{ fontSize: 48 }} />,
-      imgSrc: sceneryImage5,
-      likes: 0,
-      comments: 0,
-    },
-  ]);
+  const nameOfMuseum = "Munchify";
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetchLikesData();
+    fetchPosts();
   }, []);
 
-  const fetchLikesData = () => {
-    fetch('/api/likes')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Likes Data:', data);
-        setLikesData(data);
-        updateLikesCount(data);
-      })
-      .catch((error) => {
-        console.error('Error fetching likes:', error);
-      });
-  };
-
-  const updateLikesCount = (likesData) => {
-    const updatedData = data.map((item) => {
-      const likesCount = likesData.filter((like) => like.postId === item.id).length;
-      return { ...item, likes: likesCount };
-    });
-    setData(updatedData);
+  const fetchPosts = () => {
+    fetch('/api/post')
+        .then((response) => response.json())
+        .then((postData) => {
+          console.log('Posts Data:', postData);
+          const postIds = postData.map((post) => post.id);
+          fetch('/api/signup')
+              .then((response) => response.json())
+              .then((userData) => {
+                console.log('Users Data:', userData);
+                const combinedData = postData.map((post) => {
+                  const user = userData.find((user) => user.id === post.userId);
+                  return { ...post, user };
+                });
+                setData(combinedData);
+                // Fetch comments for each post
+                fetch('/api/comments')
+                    .then((response) => response.json())
+                    .then((commentsData) => {
+                      console.log('Comments Data:', commentsData);
+                      const combinedDataWithComments = combinedData.map((post) => {
+                        const postComments = commentsData.filter((comment) => comment.postId === post.id);
+                        return { ...post, comments: postComments };
+                      });
+                      setData(combinedDataWithComments);
+                    })
+                    .catch((error) => {
+                      console.error('Error fetching comments:', error);
+                    });
+              })
+              .catch((error) => {
+                console.error('Error fetching users:', error);
+              });
+        })
+        .catch((error) => {
+          console.error('Error fetching posts:', error);
+        });
   };
 
   const handleOpenCommentsModal = (postId) => {
@@ -110,46 +86,24 @@ const SearchPage = () => {
         return [...prevLikedPosts, postId];
       }
     });
-
-    setLikesData((prevData) => {
-      return prevData.map((item) => {
-        if (item.id === postId) {
-          const liked = likedPosts.includes(postId);
-          const likesCount = liked ? item.likes - 1 : item.likes + 1;
-          const updatedItem = { ...item, likes: likesCount };
-          return updatedItem;
-        }
-        return item;
-      });
-    });
   };
 
   const handleCommentSubmit = (e, postId) => {
     e.preventDefault();
     console.log('New Comment:', newComment);
-  
-    setData((prevData) => {
-      return prevData.map((item) => {
-        if (item.id === postId) {
-          const updatedItem = { ...item, comments: item.comments + 1 };
-          return updatedItem;
-        }
-        return item;
-      });
-    });
-  
+
     setComments((prevComments) => [
       ...prevComments,
-      { postId: postId, username: 'Your Name', text: newComment },
+      { postId: postId, username: 'Your Name', text: newComment, profilePic: sceneryImage },
     ]);
-  
+
     setNewComment('');
   };
 
   function handleNavigation(){
     navigate("/follower");
   }
-  
+
 
   const inputStyles = {
     marginRight: '10px',
@@ -176,7 +130,6 @@ const SearchPage = () => {
   };
 
 
-
   const searchContainerStyles = {
     display: 'flex',
     alignItems: 'center',
@@ -190,72 +143,83 @@ const SearchPage = () => {
   };
 
   return (
-    <div>
-      <h1 className="nameOfMuseum">{nameOfMuseum}</h1>
-      <EditProfile />
+      <div>
+        <h1 className="nameOfMuseum">{nameOfMuseum}</h1>
+        <EditProfile />
 
-     
+        {data.map((item) => {
+          const liked = likedPosts.includes(item.id);
+          const initialLikes = liked
+              ? item.likes + likedPosts.filter((id) => id === item.id).length
+              : item.likes;
 
-      {data.map((item) => {
-        const liked = likedPosts.includes(item.id);
-        const initialLikes = liked ? item.likes + likedPosts.filter((id) => id === item.id).length : item.likes;
+          return (
+              <div key={item.id} style={{ marginBottom: '40px' }}>
+                <button onClick={handleNavigation} className="titleForPosts">
+                  <div style={{ display: 'flex', alignItems: 'center', marginLeft: '5px' }}>
+                    {item.user && item.user.photo && (
+                        <img src={item.user.photo} alt="Profile" style={profilePicStyles} />
+                    )}
+                    <div>
+                      <h3>{item.profileName}</h3>
+                      <span>{item.user && item.user.username}</span>
+                    </div>
+                  </div>
+                </button>
 
-        return (
-          <div key={item.id} style={{ marginBottom: '40px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', marginLeft: '5px' }}>
-            {item.profilePicture}
-        <button onClick={handleNavigation} className="titleForPosts">
-          <h3>{item.profileName}</h3>
-        </button>
-            </div>
-            <div style={{ width: 'auto', height: '250px', padding: '10px' }}>
-              <img src={item.imgSrc} alt="Card" style={{ width: '100%', height: '100%' }} />
-            </div>
-            <div
-              style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '10px' }}
-              onClick={() => handleLikeToggle(item.id)}
-            >
-              <ThumbUpIcon color={liked ? 'primary' : 'inherit'} />
-              <span style={{ marginLeft: '3px' }}>{initialLikes}</span>
-            </div>
-            <div
-              style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '10px' }}
-              onClick={() => handleOpenCommentsModal(item.id)}
-            >
-              <CommentIcon />
-              <span style={{ marginLeft: '3px' }}>{item.comments}</span>
-            </div>
-          </div>
-        );
-      })}
+                <div style={{ width: 'auto', height: '250px', padding: '10px' }}>
+                  <img src={item.photo} alt="Card" style={{ width: '100%', height: '100%' }} />
+                </div>
+                <div
+                    style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '10px' }}
+                    onClick={() => handleLikeToggle(item.id)}
+                >
+                  <ThumbUpIcon color={liked ? 'primary' : 'inherit'} />
+                  <span style={{ marginLeft: '3px' }}>{initialLikes}</span>
+                </div>
+                <div
+                    style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '10px' }}
+                    onClick={() => handleOpenCommentsModal(item.id)}
+                >
+                  <CommentIcon />
+                  <span style={{ marginLeft: '3px' }}>{item.comments && item.comments.length}</span>
+                </div>
+              </div>
+          );
+        })}
 
-      {/* Comments Modal */}
-      <ReactModal
-        isOpen={Boolean(isCommentsVisible)}
-        onRequestClose={handleCloseCommentsModal}
-        contentLabel="Comments Modal"
-      >
-        <h2>Comments</h2>
-        {comments.map((comment, index) => (
-          <div key={index} style={commentStyles}>
-            <img src={sceneryImage} alt="Profile" style={profilePicStyles} />
-            <span style={usernameStyles}>{comment.username}:</span>
-            <span>{comment.text}</span>
-          </div>
-        ))}
-        <form onSubmit={(e) => handleCommentSubmit(e, isCommentsVisible)}>
-          <input
-            type="text"
-            style={inputStyles}
-            placeholder="Add a comment"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-          />
-          <button type="submit">Submit</button>
-        </form>
-      </ReactModal>
-      <Navigation />
-    </div>
+        {/* Comments Modal */}
+          <ReactModal
+              isOpen={Boolean(isCommentsVisible)}
+              onRequestClose={handleCloseCommentsModal}
+              contentLabel="Comments Modal"
+          >
+              <h2>Comments</h2>
+              {data.map((item) => {
+                  if (item.id === isCommentsVisible && item.comments) {
+                      return item.comments.map((comment, index) => (
+                          <div key={index} style={commentStyles}>
+                              <img src={comment.profilePic} alt="Profile" style={profilePicStyles} />
+                              <span style={usernameStyles}>{comment.username}:</span>
+                              <span>{comment.text}</span>
+                          </div>
+                      ));
+                  }
+                  return null;
+              })}
+              <form onSubmit={(e) => handleCommentSubmit(e, isCommentsVisible)}>
+                  <input
+                      type="text"
+                      style={inputStyles}
+                      placeholder="Add a comment"
+                      value={newComment}
+                      onChange={(e) => setNewComment(e.target.value)}
+                  />
+                  <button type="submit">Submit</button>
+              </form>
+          </ReactModal>
+        <Navigation />
+      </div>
   );
 };
 
