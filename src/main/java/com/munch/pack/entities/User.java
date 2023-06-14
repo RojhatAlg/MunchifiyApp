@@ -5,6 +5,9 @@ public class User {
 
     }
 
+    public User(Long id, String name) {
+    }
+
     public Long getId() {
         return id;
     }

@@ -3,13 +3,20 @@ package com.munch.pack.entities;
 public class Login {
 
     public Login(long id, String username, String password) {
-
+        this.id = id;
         this.username = username;
         this.password = password;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
         this.id = id;
     }
 
-    private long id;
+    private Long id;
     private String username;
     private String password;
 
@@ -27,13 +34,5 @@ public class Login {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 }

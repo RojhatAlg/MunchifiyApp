@@ -20,14 +20,14 @@ public class LoginDao {
     }
 
     private void loadFromDatabase() {
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "amed2012")){
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/projekt_smidig", "root", "amed2012")){
             Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT idUser, UserName, Password from user");
+            ResultSet resultSet = statement.executeQuery("SELECT id, username, password from users");
 
             while(resultSet.next()){
-                long id = resultSet.getLong("idUser");
-                String username = resultSet.getString("UserName");
-                String password = resultSet.getString("Password");
+                long id = resultSet.getLong("id");
+                String username = resultSet.getString("username");
+                String password = resultSet.getString("password");
 
                 loginInfo.add(new Login(id, username, password));
             }
@@ -43,23 +43,12 @@ public class LoginDao {
 
     public boolean authenticate(Login login) {
         boolean isUser = false;
-
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "amed2012");
-             PreparedStatement statement = con.prepareStatement("SELECT COUNT(*) FROM user WHERE UserName = ? AND Password = ?")) {
-            statement.setString(1, login.getUsername());
-            statement.setString(2, login.getPassword());
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    int count = resultSet.getInt(1);
-                    isUser = count > 0;
-                }
+        for (Login user : loginInfo){
+            if (user.getUsername().equals(login.getUsername()) &&
+            user.getPassword().equals(user.getPassword())){
+                isUser =  true;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
         return isUser;
     }
-
 }
