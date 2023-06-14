@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -18,13 +19,13 @@ public class LikesController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Likes>> getAllLikes() {
+    public ResponseEntity<List<Likes>> getAllLikes() throws SQLException {
         List<Likes> likes = likesDao.findAll();
         return ResponseEntity.ok(likes);
     }
 
     @PostMapping
-    public ResponseEntity<Likes> createLike(@RequestBody Likes like) {
+    public ResponseEntity<Likes> createLike(@RequestBody Likes like) throws SQLException {
         Likes createdLike = likesDao.save(like);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdLike);
     }

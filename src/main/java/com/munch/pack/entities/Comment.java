@@ -8,16 +8,28 @@ public class Comment {
     private Long id;
     private String text;
     private Long userId;
-    private String name;
+
+    private long postId;
     private Date date;
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+    private String profilePicture;
     private List<Reply> replies;
 
-    public Comment(Long id, String text, Long userId, String name, Date date) {
+    public Comment(Long id, String text, Long userId, Long postId, Date date, String profilePicture) {
         this.id = id;
         this.text = text;
         this.userId = userId;
-        this.name = name;
+        this.postId = postId;
         this.date = date;
+        this.profilePicture = profilePicture;
         this.replies = new ArrayList<>();
     }
 
@@ -47,12 +59,12 @@ public class Comment {
         this.userId = userId;
     }
 
-    public String getName() {
-        return name;
+    public Long getPostId() {
+        return postId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(Long postId) {
+        this.postId = postId;
     }
 
     public Date getDate() {

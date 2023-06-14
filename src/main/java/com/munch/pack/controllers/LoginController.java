@@ -13,16 +13,28 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/login")
 public class LoginController {
     private LoginDao loginDao;
+    private UserDao userdao;
+    private long id;
 
-    public LoginController(LoginDao loginDao) {
-        this.loginDao = loginDao;
+    public LoginController(){
+        loginDao = new LoginDao();
+
     }
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping()
+    public ResponseEntity<Long> returnId (@CookieValue(value = "user_id", defaultValue = "-1") long userId) {
+        System.out.println(userId);
+        return ResponseEntity.ok(id);
+    }
+
+
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping
     public ResponseEntity<Long> authenticateUser(@RequestBody Login login, HttpServletResponse response) {
         if (loginDao.authenticate(login)) {
-            long id = login.getId();
+            id = loginDao.getUserId(login);
+            System.out.println(id);
 
             // Create a cookie
             Cookie cookie = new Cookie("user_id", String.valueOf(id));
@@ -31,10 +43,12 @@ public class LoginController {
             // Add the cookie to the response
             response.addCookie(cookie);
 
+
             return ResponseEntity.ok(id);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body((long) -1);
+        }else{
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body((long)-1);
         }
     }
-}
 
+
+}

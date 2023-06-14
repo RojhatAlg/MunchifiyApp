@@ -13,12 +13,14 @@ Modal.setAppElement('#root');
 
 const SearchPage = () => {
   const navigate = useNavigate();
+  const navigate = useNavigate();
   const [isCommentsVisible, setIsCommentsVisible] = useState(false);
-  const [likesData, setLikesData] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState([]);
 
+  const nameOfMuseum = "Munchify";
+  const [data, setData] = useState([]);
   const nameOfMuseum = "Munchify";
   const [data, setData] = useState([]);
 
@@ -27,25 +29,43 @@ const SearchPage = () => {
     getAllPost();
   }, []);
 
-  const fetchLikesData = () => {
-    fetch('/api/likes')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Likes Data:', data);
-        setLikesData(data);
-        updateLikesCount(data);
-      })
-      .catch((error) => {
-        console.error('Error fetching likes:', error);
-      });
-  };
-
-  const updateLikesCount = (likesData) => {
-    const updatedData = data.map((item) => {
-      const likesCount = likesData.filter((like) => like.postId === item.id).length;
-      return { ...item, likes: likesCount };
-    });
-    setData(updatedData);
+  const fetchPosts = () => {
+    fetch('/api/post')
+        .then((response) => response.json())
+        .then((postData) => {
+          console.log('Posts Data:', postData);
+          const postIds = postData.map((post) => post.id);
+          fetch('/api/signup')
+              .then((response) => response.json())
+              .then((userData) => {
+                console.log('Users Data:', userData);
+                const combinedData = postData.map((post) => {
+                  const user = userData.find((user) => user.id === post.userId);
+                  return { ...post, user };
+                });
+                setData(combinedData);
+                // Fetch comments for each post
+                fetch('/api/comments')
+                    .then((response) => response.json())
+                    .then((commentsData) => {
+                      console.log('Comments Data:', commentsData);
+                      const combinedDataWithComments = combinedData.map((post) => {
+                        const postComments = commentsData.filter((comment) => comment.postId === post.id);
+                        return { ...post, comments: postComments };
+                      });
+                      setData(combinedDataWithComments);
+                    })
+                    .catch((error) => {
+                      console.error('Error fetching comments:', error);
+                    });
+              })
+              .catch((error) => {
+                console.error('Error fetching users:', error);
+              });
+        })
+        .catch((error) => {
+          console.error('Error fetching posts:', error);
+        });
   };
 
   const handleOpenCommentsModal = (postId) => {
@@ -83,18 +103,6 @@ const SearchPage = () => {
       } else {
         return [...prevLikedPosts, postId];
       }
-    });
-
-    setLikesData((prevData) => {
-      return prevData.map((item) => {
-        if (item.id === postId) {
-          const liked = likedPosts.includes(postId);
-          const likesCount = liked ? item.likes - 1 : item.likes + 1;
-          const updatedItem = { ...item, likes: likesCount };
-          return updatedItem;
-        }
-        return item;
-      });
     });
   };
 

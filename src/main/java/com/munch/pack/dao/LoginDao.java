@@ -40,6 +40,16 @@ public class LoginDao {
         }
     }
 
+    public long getUserId(Login login){
+        long userId = 0;
+        for(Login user: loginInfo){
+            if (user.getUsername().equals( login.getUsername())){
+                userId =  user.getId();
+            }
+        }
+        return userId;
+    }
+
 
     public boolean authenticate(Login login) {
         boolean isUser = false;
