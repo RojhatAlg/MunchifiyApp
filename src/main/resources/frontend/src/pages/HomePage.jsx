@@ -12,8 +12,7 @@ import { useNavigate } from 'react-router-dom';
 Modal.setAppElement('#root');
 
 const SearchPage = () => {
-  const navigate = useNavigate();
-  const navigate = useNavigate();
+  const navigate = useNavigate();gi
   const [isCommentsVisible, setIsCommentsVisible] = useState(false);
   const [likedPosts, setLikedPosts] = useState([]);
   const [newComment, setNewComment] = useState('');
@@ -21,8 +20,7 @@ const SearchPage = () => {
 
   const nameOfMuseum = "Munchify";
   const [data, setData] = useState([]);
-  const nameOfMuseum = "Munchify";
-  const [data, setData] = useState([]);
+  
 
   useEffect(() => {
     fetchLikesData();
