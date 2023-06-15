@@ -2,205 +2,243 @@ import React, { useState, useEffect } from 'react';
 import ReactModal from 'react-modal';
 import '../App.css';
 import Modal from 'react-modal';
-import Navigation from '../components/Navigation';
+import Navigation from '../components/Navigation'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import CommentIcon from '@mui/icons-material/Comment';
-import EditProfile from '../components/EditProfile';
-import { useNavigate } from 'react-router-dom';
+import EditProfile from '../components/EditProfile'
 import SearchIcon from '@mui/icons-material/Search';
+import { useNavigate } from 'react-router-dom';
+
 
 Modal.setAppElement('#root');
 
 const SearchPage = () => {
-  const navigate = useNavigate();
-  const [isCommentsVisible, setIsCommentsVisible] = useState(false);
-  const [likesData, setLikesData] = useState([]);
-  const [likedPosts, setLikedPosts] = useState([]);
-  const [newComment, setNewComment] = useState('');
-  const [comments, setComments] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
+    const navigate = useNavigate();
+    const [isCommentsVisible, setIsCommentsVisible] = useState(false);
+    const [likedPosts, setLikedPosts] = useState([]);
+    const [newComment, setNewComment] = useState('');
+    const [comments, setComments] = useState([]);
 
-  const nameOfMuseum = "Munchify";
-  const [data, setData] = useState([]);
+    const nameOfMuseum = "Munchify";
+    const [data, setData] = useState([]);
 
-  useEffect(() => {
-    fetchLikesData();
-    getAllPost();
-  }, []);
+    useEffect(() => {
+        fetchPosts();
+    }, []);
 
-  const fetchLikesData = () => {
-    fetch('/api/likes')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Likes Data:', data);
-        setLikesData(data);
-        updateLikesCount(data);
-      })
-      .catch((error) => {
-        console.error('Error fetching likes:', error);
-      });
-  };
+    const fetchPosts = () => {
+        fetch('/api/post')
+            .then((response) => response.json())
+            .then((postData) => {
+                console.log('Posts Data:', postData);
+                const postIds = postData.map((post) => post.id);
+                fetch('/api/signup')
+                    .then((response) => response.json())
+                    .then((userData) => {
+                        console.log('Users Data:', userData);
+                        const combinedData = postData.map((post) => {
+                            const user = userData.find((user) => user.id === post.userId);
+                            return { ...post, user };
+                        });
+                        setData(combinedData);
+                        // Fetch comments for each post
+                        fetch('/api/comments')
+                            .then((response) => response.json())
+                            .then((commentsData) => {
+                                console.log('Comments Data:', commentsData);
+                                const combinedDataWithComments = combinedData.map((post) => {
+                                    const postComments = commentsData.filter((comment) => comment.postId === post.id);
+                                    return { ...post, comments: postComments };
+                                });
+                                setData(combinedDataWithComments);
+                            })
+                            .catch((error) => {
+                                console.error('Error fetching comments:', error);
+                            });
+                    })
+                    .catch((error) => {
+                        console.error('Error fetching users:', error);
+                    });
+            })
+            .catch((error) => {
+                console.error('Error fetching posts:', error);
+            });
+    };
 
-  const updateLikesCount = (likesData) => {
-    const updatedData = data.map((item) => {
-      const likesCount = likesData.filter((like) => like.postId === item.id).length;
-      return { ...item, likes: likesCount };
-    });
-    setData(updatedData);
-  };
+    const handleOpenCommentsModal = (postId) => {
+        setIsCommentsVisible(postId);
+    };
 
-  const handleOpenCommentsModal = (postId) => {
-    setIsCommentsVisible(postId);
-  };
+    const handleCloseCommentsModal = () => {
+        setIsCommentsVisible(false);
+    };
 
-  const handleCloseCommentsModal = () => {
-    setIsCommentsVisible(false);
-  };
+    const handleLikeToggle = (postId) => {
+        setLikedPosts((prevLikedPosts) => {
+            if (prevLikedPosts.includes(postId)) {
+                return prevLikedPosts.filter((id) => id !== postId);
+            } else {
+                return [...prevLikedPosts, postId];
+            }
+        });
+    };
 
-  const getAllPost = () => {
-    fetch('/api/post')
-      .then((response) => response.json())
-      .then((postData) => {
-        console.log('Post Data:', postData);
-        const modifiedData = postData.map((item) => ({
-          id: item.id,
-          bio: item.bio,
-          photo: item.photo,
-          nrLikes: item.nrLikes,
-          nrFavorites: item.nrFavorites,
-          comments: item.comments,
-        }));
-        setData(modifiedData);
-      })
-      .catch((error) => {
-        console.error('Error fetching posts:', error);
-      });
-  };
+    const handleCommentSubmit = (e, postId) => {
+        e.preventDefault();
+        console.log('New Comment:', newComment);
 
-  const handleLikeToggle = (postId) => {
-    setLikedPosts((prevLikedPosts) => {
-      if (prevLikedPosts.includes(postId)) {
-        return prevLikedPosts.filter((id) => id !== postId);
-      } else {
-        return [...prevLikedPosts, postId];
-      }
-    });
+        const commentUsername = 'username'; // Replace 'YourName' with the actual username
 
-    setLikesData((prevData) => {
-      return prevData.map((item) => {
-        if (item.id === postId) {
-          const liked = likedPosts.includes(postId);
-          const likesCount = liked ? item.likes - 1 : item.likes + 1;
-          const updatedItem = { ...item, likes: likesCount };
-          return updatedItem;
-        }
-        return item;
-      });
-    });
-  };
+        // Fetch the user's profile picture based on their username
+        fetch(`/api/signup?username=${commentUsername}`)
+            .then((response) => response.json())
+            .then((userData) => {
+                const profilePic = userData.photo; // Assuming the user's profile picture is stored in the 'photo' field
+                setComments((prevComments) => [
+                    ...prevComments,
+                    { postId: postId, userName: 'Your Name', text: newComment, profilePic: profilePic },
 
-  const handleCommentSubmit = (e, postId) => {
-    e.preventDefault();
+                    console.log("Profile pic: " + profilePic)
+                ]);
+                setNewComment('');
+            })
+            .catch((error) => {
+                console.error('Error fetching user:', error);
+            });
+    };
+function handleSearch(){
+  console.log("Searchin...")
+}
 
-    // Update comments in the state
-    setComments((prevComments) => {
-      const newCommentObj = {
-        postId: postId,
-        comment: newComment,
-      };
-      return [...prevComments, newCommentObj];
-    });
 
-    // Clear the comment input
-    setNewComment('');
-  };
+    const handleNavigation = () => {
+        navigate('/exhibit');
+    };
 
-  function handleNavigation() {
-    navigate("/follower");
-  }
-  const handleSearch = (e) => {
-    e.preventDefault();
-    console.log('Search Query:', searchQuery);
-    // Perform search logic here
-  };
+    const profilePicStyles = {
+        width: '30px',
+        height: '30px',
+        borderRadius: '50%',
+        marginRight: '10px',
+    };
 
-  const searchContainerStyles = {
-    display: 'flex',
-    alignItems: 'center',
-    marginLeft: '20%',
-    marginRight: '20%'
-  };
+    const commentStyles = {
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: '10px',
+    };
 
-  const searchInputStyles = {
-    marginRight: '10px',
-    padding: '3%',
-    width: '100%',
-  };
+    const usernameStyles = {
+        fontWeight: 'bold',
+        marginRight: '5px',
+    };
 
-  return (
-    <div>
+    const searchContainerStyles = {
+      display: 'flex',
+      alignItems: 'center',
+      marginLeft: '20%',
+      marginRight: '20%'
+    };
+  
+    const searchInputStyles = {
+      marginRight: '10px',
+      padding: '3%',
+      width: '100%',
+    };
 
-      <div className="search-page">
-        <div className="search-header">
-          <h2 className='nameOfMuseum'>{nameOfMuseum}</h2>
-        </div>
-        <EditProfile />
-
-        {/* Search Box */}
+    return (
+        <div>
+            <h1 className="nameOfMuseum">{nameOfMuseum}</h1>
+            <EditProfile />
+              {/* Search Box */}
       <div style={searchContainerStyles}>
         <input
           type="text"
           style={searchInputStyles}
           placeholder="Search"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+         
+          
         />
         <button onClick={handleSearch}>
           <SearchIcon />
         </button>
       </div>
 
-        <div className="search-body">
-          {data.map((item) => (
-            <div key={item.id} className="post">
-              <div className="post-header">
-               
-                <p style={{ display: 'flex', alignItems: 'center', marginLeft: '4%' }}>{item.bio}</p>
-                <div className="post-image">
-                <img src={item.photo} alt="Post" style={{ width: '90%', height: '250px', marginLeft: '4%', marginRight: '4%' }} />
-              </div>
-                <div className="post-actions">
-                  <div style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '4%' }} onClick={() => handleLikeToggle(item.id)}>
-                    <ThumbUpIcon />
-                    <span>{item.nrLikes}</span>
-                  </div>
-                  <div style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '4%' }} onClick={() => handleOpenCommentsModal(item.id)}>
-                    <CommentIcon />
-                    <span>{item.comments}16</span>
-                  </div>
-                </div>
-              </div>
+            {data.map((item) => {
+                const liked = likedPosts.includes(item.id);
+                const initialLikes = liked
+                    ? item.likes + likedPosts.filter((id) => id === item.id).length
+                    : item.likes;
 
-              
+                // Find the user object from the data array
+                const user = item.user;
+                const profilePic = user && user.photo;
 
-            
-            </div>
-          ))}
+                return (
+                    <div key={item.id} style={{ marginBottom: '40px' }}>
+                        <button onClick={handleNavigation} className="titleForPosts">
+                            <div style={{ display: 'flex', alignItems: 'center', marginLeft: '5px' }}>
+                                {profilePic && <img src={profilePic} alt="Profile" style={profilePicStyles} />}
+                                <div>
+                                    <h3>{item.profileName}</h3>
+                                    <span>{user && user.username}</span>
+                                </div>
+                            </div>
+                        </button>
+
+                        <div style={{ width: 'auto', height: '250px', padding: '10px' }}>
+                            <img src={item.photo} alt="Card" style={{ width: '100%', height: '100%' }} />
+                        </div>
+                        <div
+                            style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '10px' }}
+                            onClick={() => handleLikeToggle(item.id)}
+                        >
+                            <ThumbUpIcon color={liked ? 'primary' : 'inherit'} />
+                            <span style={{ marginLeft: '3px' }}>{initialLikes}</span>
+                        </div>
+                        <div
+                            style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '10px' }}
+                            onClick={() => handleOpenCommentsModal(item.id)}
+                        >
+                            <CommentIcon />
+                            <span style={{ marginLeft: '3px' }}>{item.comments && item.comments.length}</span>
+                        </div>
+                    </div>
+                );
+            })}
+
+            {/* Comments Modal */}
+            <ReactModal
+                isOpen={Boolean(isCommentsVisible)}
+                onRequestClose={handleCloseCommentsModal}
+                contentLabel="Comments Modal"
+            >
+                <h2>Comments</h2>
+                {data.map((item) => {
+                    if (item.id === isCommentsVisible && item.comments) {
+                        return item.comments.map((comment, index) => (
+                            <div key={index} style={commentStyles}>
+                                <img src={comment.profilePic} alt="Profile" style={profilePicStyles} />
+                                <span style={usernameStyles}>{comment.username}:</span>
+                                <span>{comment.text}</span>
+                            </div>
+                        ));
+                    }
+                    return null;
+                })}
+                <form onSubmit={(e) => handleCommentSubmit(e, isCommentsVisible)}>
+                    <input
+                        type="text"
+                        placeholder="Add a comment"
+                        value={newComment}
+                        onChange={(e) => setNewComment(e.target.value)}
+                    />
+                    <button type="submit">Submit</button>
+                </form>
+            </ReactModal>
+            <Navigation />
         </div>
-      </div>
-
-      <ReactModal
-        isOpen={isCommentsVisible}
-        onRequestClose={handleCloseCommentsModal}
-        contentLabel="Comments Modal"
-        className="modal"
-      >
-        <h2>Comments</h2>
-        <button onClick={handleCloseCommentsModal}>Close</button>
-      </ReactModal>
-      <Navigation />
-    </div>
-  );
+    );
 };
 
 export default SearchPage;

@@ -202,7 +202,7 @@ const SearchPage = () => {
                         return item.comments.map((comment, index) => (
                             <div key={index} style={commentStyles}>
                                 <img src={comment.profilePic} alt="Profile" style={profilePicStyles} />
-                                <span style={usernameStyles}>{comment.userName}:</span>
+                                <span style={usernameStyles}>{comment.username}:</span>
                                 <span>{comment.text}</span>
                             </div>
                         ));

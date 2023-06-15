@@ -3,43 +3,35 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Navigation from '../components/Navigation';
 import EditProfile from '../components/EditProfile';
 
-//import ImageSelectionScreen from './components/ImageSelectionScreen';
-
 function AddPage() {
-  const [selectedImages, setSelectedImages] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
 
-  const handleImageUpload = (files) => {
-    const imageFiles = Array.from(files); // Convert FileList to an array
-
-    const imagePreviews = imageFiles.map((file) => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          resolve(reader.result);
-        };
-        reader.onerror = (error) => {
-          reject(error);
-        };
-        reader.readAsDataURL(file);
-      });
-    });
-
-    Promise.all(imagePreviews)
-      .then((results) => {
-        setSelectedImages((prevImages) => [...prevImages, ...results]);
-      })
-      .catch((error) => {
-        console.log('Error reading image:', error);
-      });
+  const handleImageUrlChange = (event) => {
+    setImageUrl(event.target.value);
   };
 
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
+  const handlePost = async () => {
+    try {
+      const postPayload = {
+        bio: 'Your post bio', // Replace with the actual bio
+        nrLikes: '0', // Replace with the actual number of likes
+        nrFavourites: '0', // Replace with the actual number of favourites
+        photo: imageUrl, // Use the entered image URL
+      };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
+      await fetch('/api/post', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postPayload),
+      });
+
+      // Reset the image URL if needed
+      setImageUrl('');
+    } catch (error) {
+      console.log('Error creating post:', error);
+    }
   };
 
   return (
@@ -47,42 +39,24 @@ function AddPage() {
       <h1 className="nameOfMuseum">Munchify</h1>
       <EditProfile />
       <div className="upload-button">
-        <label htmlFor="image-upload" className="upload-label">
-          <input
-            id="image-upload"
-            type="file"
-            multiple
-            onChange={(e) => handleImageUpload(e.target.files)}
-            style={{ display: 'none' }}
-          />
-          <div className="upload-icon">
-            <AddCircleIcon fontSize="large" onClick={handleOpenModal} />
-          </div>
-        </label>
+        <input
+          type="text"
+          value={imageUrl}
+          onChange={handleImageUrlChange}
+          placeholder="Paste image URL"
+        />
+        <AddCircleIcon fontSize="large" onClick={handlePost} />
       </div>
-      {selectedImages.length > 0 && (
-        <div className="image-preview">
-          {selectedImages.map((image, index) => (
-            <div>
-            <img
-              key={index}
-              src={image}
-              alt=''
-              style={{ width: '100%', height: '250px', objectFit: 'cover', margin: '10px' }}
-            />
-            <button>Post</button>
-            </div>
-          ))}
-        </div>
-      )}
-      {showModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Hello</h2>
-            <button onClick={handleCloseModal}>Close</button>
-          </div>
-        </div>
-      )}
+      <div className="image-preview">
+        {imageUrl && (
+          <img
+            src={imageUrl}
+            alt="Image Preview"
+            style={{ width: '100%', height: '250px', objectFit: 'cover', margin: '10px' }}
+          />
+        )}
+      </div>
+      {/* Rest of the code... */}
       {/* Bottom Navigation */}
       <Navigation />
     </div>
