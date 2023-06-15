@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactModal from 'react-modal';
 import '../App.css';
+import '../css/searchPage.css';
 import Modal from 'react-modal';
 import Navigation from '../components/Navigation'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
@@ -175,9 +176,9 @@ function handleSearch(){
                 const profilePic = user && user.photo;
 
                 return (
-                    <div key={item.id} style={{ marginBottom: '40px' }}>
-                        <button onClick={handleNavigation} className="titleForPosts">
-                            <div style={{ display: 'flex', alignItems: 'center', marginLeft: '5px' }}>
+                    <div key={item.id} style={{ marginBottom: '6%', marginTop: '-4%%' }}>
+                        <button onClick={handleNavigation} className="buttonbutton" style={{marginLeft:'5%'}}>
+                            <div style={{ display: 'flex', alignItems: 'center', marginLeft: '5%' }}>
                                 {profilePic && <img src={profilePic} alt="Profile" style={profilePicStyles} />}
                                 <div>
                                     <h3>{item.profileName}</h3>
@@ -187,22 +188,9 @@ function handleSearch(){
                         </button>
 
                         <div style={{ width: 'auto', height: '250px', padding: '10px' }}>
-                            <img src={item.photo} alt="Card" style={{ width: '100%', height: '100%' }} />
+                            <img src={item.photo} alt="Card" className='pictureSettings' />
                         </div>
-                        <div
-                            style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '10px' }}
-                            onClick={() => handleLikeToggle(item.id)}
-                        >
-                            <ThumbUpIcon color={liked ? 'primary' : 'inherit'} />
-                            <span style={{ marginLeft: '3px' }}>{initialLikes}</span>
-                        </div>
-                        <div
-                            style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '10px' }}
-                            onClick={() => handleOpenCommentsModal(item.id)}
-                        >
-                            <CommentIcon />
-                            <span style={{ marginLeft: '3px' }}>{item.comments && item.comments.length}</span>
-                        </div>
+
                     </div>
                 );
             })}

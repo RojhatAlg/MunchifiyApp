@@ -20,7 +20,7 @@ public class LoginDao {
     }
 
     private void loadFromDatabase() {
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "passord123")){
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "Passord123")){
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT idUser, UserName, password from user");
 

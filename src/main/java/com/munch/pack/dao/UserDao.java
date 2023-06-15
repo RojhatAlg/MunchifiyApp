@@ -16,7 +16,7 @@ public class UserDao {
 
     public UserDao() {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "passord123");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "Passord123");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -113,7 +113,7 @@ public class UserDao {
     public User findById(Long id) {
         User user = null;
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "passord123")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "Passord123")) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM user WHERE idUser = ?");
             statement.setLong(1, id);
 

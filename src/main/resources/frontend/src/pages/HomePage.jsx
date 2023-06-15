@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ReactModal from 'react-modal';
 import '../App.css';
+import '../css/homePage.css';
 import Modal from 'react-modal';
-import Navigation from '../components/Navigation'
+import Navigation from '../components/Navigation';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import CommentIcon from '@mui/icons-material/Comment';
 import PersonIcon from '@mui/icons-material/AccountCircleOutlined';
-import EditProfile from '../components/EditProfile'
+import EditProfile from '../components/EditProfile';
 import sceneryImage from '../assets/scenery.jpg';
 import sceneryImage2 from '../assets/scenery2.jpg';
 import sceneryImage3 from '../assets/scenery3.jpg';
@@ -115,14 +116,14 @@ const SearchPage = () => {
 
 
     const handleNavigation = () => {
-        navigate('/exhibit');
+        navigate('/follower');
     };
 
     const profilePicStyles = {
         width: '30px',
         height: '30px',
         borderRadius: '50%',
-        marginRight: '10px',
+        marginLeft: '10px',
     };
 
     const commentStyles = {
@@ -158,9 +159,9 @@ const SearchPage = () => {
                 const profilePic = user && user.photo;
 
                 return (
-                    <div key={item.id} style={{ marginBottom: '40px' }}>
-                        <button onClick={handleNavigation} className="titleForPosts">
-                            <div style={{ display: 'flex', alignItems: 'center', marginLeft: '5px' }}>
+                    <div key={item.id} style={{ marginBottom: '6%', marginTop: '-4%%' }}>
+                        <button onClick={handleNavigation} className='buttonbutton'>
+                            <div style={{ display: 'flex', alignItems: 'center', marginLeft: '7%', marginBottom:'14%' }}>
                                 {profilePic && <img src={profilePic} alt="Profile" style={profilePicStyles} />}
                                 <div>
                                     <h3>{item.profileName}</h3>
@@ -169,22 +170,23 @@ const SearchPage = () => {
                             </div>
                         </button>
 
-                        <div style={{ width: 'auto', height: '250px', padding: '10px' }}>
-                            <img src={item.photo} alt="Card" style={{ width: '100%', height: '100%' }} />
+                        <div >
+                            <img src={item.photo} alt="Card" className='pictureSettings' />
                         </div>
                         <div
-                            style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '10px' }}
+                            style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '8%', marginTop: '4%' }}
                             onClick={() => handleLikeToggle(item.id)}
                         >
-                            <ThumbUpIcon color={liked ? 'primary' : 'inherit'} />
-                            <span style={{ marginLeft: '3px' }}>{initialLikes}</span>
+                            <ThumbUpIcon color={liked ? 'primary' : 'inherit'} style={{fontSize: '105%'}} />
+
+
                         </div>
                         <div
-                            style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '10px' }}
+                            style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '4%', marginTop: '2%' }}
                             onClick={() => handleOpenCommentsModal(item.id)}
                         >
-                            <CommentIcon />
-                            <span style={{ marginLeft: '3px' }}>{item.comments && item.comments.length}</span>
+                            <CommentIcon style={{fontSize:'110%'}}/>
+                            <span >{item.comments && item.comments.length}</span>
                         </div>
                     </div>
                 );
