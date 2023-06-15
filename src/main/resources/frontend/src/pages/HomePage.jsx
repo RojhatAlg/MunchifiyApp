@@ -177,7 +177,7 @@ const SearchPage = () => {
                             onClick={() => handleLikeToggle(item.id)}
                         >
                             <ThumbUpIcon color={liked ? 'primary' : 'inherit'} />
-                            <span style={{ marginLeft: '3px' }}>{initialLikes}</span>
+                            <span style={{ marginLeft: '3px' }}></span>
                         </div>
                         <div
                             style={{ display: 'inline-block', cursor: 'pointer', marginLeft: '10px' }}
