@@ -79,9 +79,7 @@ const notificationService = {
       const notifications =
         await notificationService.notificationServiceFollowers.getNotifications();
       notifications.forEach((notification) => {
-        console.log(
-          `You have a new follower: ${notification.FollowersId}` //Skal være noe annet enn followersID
-        );
+        console.log(`You have a new follower: ${notification.FollowersId}`);
       });
     },
   },
