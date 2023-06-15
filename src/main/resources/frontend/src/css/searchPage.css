@@ -1,0 +1,39 @@
+.logo {
+    text-align: center;
+    font-size: 300%;
+    margin-top: 5%;
+    font-family: 'CustomFont1', sans-serif;
+    text-transform: uppercase;
+}
+
+.pictureSettings {
+    height: auto;
+    max-width: 90%;
+    display: block;
+    margin-left: 6%;
+    margin-top: -3%;
+    padding-top: 4%;
+    margin-bottom: -3%;
+}
+
+.nameOfAuthor {
+    font-family: 'CustomFont2', sans-serif;
+    margin-top: 0.5%;
+    background: none;
+    border: none;
+    font-size: 110%;
+    margin-left: 2%;
+}
+
+.searchBar {
+    align-items: 'center';
+    margin-left: 6%;
+    margin-top: 1%;
+    display: flex;
+    width: 90%;
+}
+
+.searchBar2 {
+    width: 100%;
+    display: inline-block;
+}

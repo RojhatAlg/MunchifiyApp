@@ -1,0 +1,30 @@
+.logo {
+    text-align: center;
+    font-size: 300%;
+    margin-top: 5%;
+    font-family: 'CustomFont1', sans-serif;
+    text-transform: uppercase;
+}
+
+.pictureSettings {
+    height: auto;
+    max-width: 90%;
+    display: block;
+    margin-left: 6%;
+    margin-top: -3%;
+}
+
+.nameOfAuthor {
+    font-family: 'CustomFont2', sans-serif;
+    margin-bottom: -1%;
+    background-color: none;
+    border: none;
+    font-size: 110%;
+}
+
+.profilepicAndName {
+    margin-bottom: '6%';
+    marginTop: '-4%%';
+    background-color: none;
+}
+
