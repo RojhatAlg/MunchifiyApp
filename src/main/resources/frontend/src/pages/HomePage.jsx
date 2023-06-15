@@ -92,29 +92,30 @@ const SearchPage = () => {
         e.preventDefault();
         console.log('New Comment:', newComment);
 
-        setComments((prevComments) => [
-            ...prevComments,
-            { postId: postId, userName: 'Your Name', text: newComment, profilePic: sceneryImage },
-        ]);
+        const commentUsername = 'username'; // Replace 'YourName' with the actual username
 
-        setNewComment('');
+        // Fetch the user's profile picture based on their username
+        fetch(`/api/signup?username=${commentUsername}`)
+            .then((response) => response.json())
+            .then((userData) => {
+                const profilePic = userData.photo; // Assuming the user's profile picture is stored in the 'photo' field
+                setComments((prevComments) => [
+                    ...prevComments,
+                    { postId: postId, userName: 'Your Name', text: newComment, profilePic: profilePic },
+
+                    console.log("Profile pic: " + profilePic)
+                ]);
+                setNewComment('');
+            })
+            .catch((error) => {
+                console.error('Error fetching user:', error);
+            });
     };
 
-    function handleNavigation(){
-        navigate("/follower");
-    }
 
 
-    const inputStyles = {
-        marginRight: '10px',
-        padding: '5px',
-        width: '200px',
-    };
-
-    const commentStyles = {
-        display: 'flex',
-        alignItems: 'center',
-        marginTop: '10px',
+    const handleNavigation = () => {
+        navigate('/exhibit');
     };
 
     const profilePicStyles = {
@@ -124,22 +125,21 @@ const SearchPage = () => {
         marginRight: '10px',
     };
 
+    const commentStyles = {
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: '10px',
+    };
+
     const usernameStyles = {
         fontWeight: 'bold',
         marginRight: '5px',
     };
 
-
-    const searchContainerStyles = {
-        display: 'flex',
-        alignItems: 'center',
-        marginTop: '10px',
-    };
-
-    const searchInputStyles = {
-        marginRight: '10px',
+    const inputStyles = {
+        marginBottom: '10px',
         padding: '5px',
-        width: '200px',
+        width: '100%',
     };
 
     return (
@@ -153,16 +153,18 @@ const SearchPage = () => {
                     ? item.likes + likedPosts.filter((id) => id === item.id).length
                     : item.likes;
 
+                // Find the user object from the data array
+                const user = item.user;
+                const profilePic = user && user.photo;
+
                 return (
                     <div key={item.id} style={{ marginBottom: '40px' }}>
                         <button onClick={handleNavigation} className="titleForPosts">
                             <div style={{ display: 'flex', alignItems: 'center', marginLeft: '5px' }}>
-                                {item.user && item.user.photo && (
-                                    <img src={item.user.photo} alt="Profile" style={profilePicStyles} />
-                                )}
+                                {profilePic && <img src={profilePic} alt="Profile" style={profilePicStyles} />}
                                 <div>
                                     <h3>{item.profileName}</h3>
-                                    <span>{item.user && item.user.userName}</span>
+                                    <span>{user && user.username}</span>
                                 </div>
                             </div>
                         </button>

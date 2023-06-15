@@ -15,7 +15,7 @@ public class LikesDao {
         // Establish a database connection
         String url = "jdbc:mysql://localhost:3306/munchdb";
         String username = "root";
-        String password = "amed2012";
+        String password = "passord123";
         connection = DriverManager.getConnection(url, username, password);
     }
 

@@ -19,7 +19,7 @@ public class CommentDao {
     }
 
     private void loadCommentsFromDatabase() {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "amed2012")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "passord123")) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT c.idComments, c.Comment, c.UserId, c.Date, c.PostId, u.name, u.photo " +
                     "FROM comments c " +
@@ -46,7 +46,7 @@ public class CommentDao {
 
 
     private void loadRepliesFromDatabase() {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "amed2012")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "passord123")) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * from replies;");
 
@@ -92,7 +92,7 @@ public class CommentDao {
     }
 
     public Comment save(Comment comment) {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "amed2012")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "passord123")) {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO comments (PostId, UserId, Comment, Date) VALUES (?, ?, ?, ?)");
             statement.setLong(1, comment.getPostId());
             statement.setLong(2, comment.getUserId());
