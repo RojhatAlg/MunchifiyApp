@@ -25,7 +25,7 @@ public class CommentController {
         this.userDao = userDao;
     }
 
-    /*
+
     @GetMapping
     public ResponseEntity<List<Comment>> getAllComments() {
         List<Comment> comments = commentDAO.findAll();
@@ -33,7 +33,7 @@ public class CommentController {
             User user = userDao.findById(comment.getUserId());
             if (user != null) {
                 comment.setUserName(user.getName()); // Assuming you have a setter method for userName in Comment entity
-                comment.setProfilePicture(user.getProfilePicture());
+                comment.setPhoto(user.getPhoto());
             }
         }
 
@@ -42,7 +42,7 @@ public class CommentController {
         return new ResponseEntity<>(comments, headers, HttpStatus.OK);
     }
 
-     */
+
 
 
 

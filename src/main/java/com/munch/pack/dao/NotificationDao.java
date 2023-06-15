@@ -15,7 +15,7 @@ public class NotificationDao {
     public NotificationDao() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/munchdb";
         String username = "root";
-        String password = "passord123";
+        String password = "amed2012";
         connection = DriverManager.getConnection(url, username, password);
     }
 

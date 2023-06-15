@@ -19,22 +19,22 @@ public class CommentDao {
     }
 
     private void loadCommentsFromDatabase() {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "passord123")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "amed2012")) {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT c.idComments, c.Comment, c.UserId, c.Date, u.name, u.profilePicture " +
+            ResultSet resultSet = statement.executeQuery("SELECT c.idComments, c.Comment, c.UserId, c.Date, c.PostId, u.name, u.photo " +
                     "FROM comments c " +
-                    "JOIN users u ON c.UserId = u.idUser;");
+                    "JOIN user u ON c.UserId = u.idUser;");
 
             while (resultSet.next()) {
                 Long id = resultSet.getLong("idComments");
                 String text = resultSet.getString("Comment");
                 Long userId = resultSet.getLong("UserId");
                 Date date = resultSet.getDate("Date");
-                Long postId = resultSet.getLong("postId");
-                String profilePicture = resultSet.getString("profilePicture");
+                Long postId = resultSet.getLong("PostId");
+                String photo = resultSet.getString("u.photo");
 
-                Comment comment = new Comment(id, text, userId, postId, date, profilePicture);
-                comment.setProfilePicture(profilePicture);
+                Comment comment = new Comment(id, text, userId, postId, date, photo);
+                comment.setPhoto(photo);
                 comments.add(comment);
             }
         } catch (SQLException e) {
@@ -44,7 +44,7 @@ public class CommentDao {
 
 
     private void loadRepliesFromDatabase() {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "passord123")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "amed2012")) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * from replies;");
 
@@ -90,7 +90,7 @@ public class CommentDao {
     }
 
     public Comment save(Comment comment) {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "passord123")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "amed2012")) {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO comments (PostId, UserId, Comment, Date) VALUES (?, ?, ?, ?)");
             statement.setLong(1, comment.getPostId());
             statement.setLong(2, comment.getUserId());

@@ -1,5 +1,7 @@
 package com.munch.pack.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,24 +14,35 @@ public class Comment {
     private long postId;
     private Date date;
 
-    public String getProfilePicture() {
-        return profilePicture;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
-    private String profilePicture;
+    private String photo;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    private String userName;
+
     private List<Reply> replies;
 
-    public Comment(Long id, String text, Long userId, Long postId, Date date, String profilePicture) {
+    public Comment(Long id, String text, Long userId, Long postId, Date date, String photo) {
         this.id = id;
         this.text = text;
         this.userId = userId;
         this.postId = postId;
         this.date = date;
-        this.profilePicture = profilePicture;
+        this.photo = photo;
         this.replies = new ArrayList<>();
     }
 

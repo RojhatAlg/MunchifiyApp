@@ -16,7 +16,7 @@ public class UserDao {
 
     public UserDao() {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "passord123");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/munchdb", "root", "amed2012");
         } catch (SQLException e) {
             e.printStackTrace();
         }
