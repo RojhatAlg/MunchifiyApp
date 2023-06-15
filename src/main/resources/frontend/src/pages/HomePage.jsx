@@ -94,7 +94,7 @@ const SearchPage = () => {
 
         setComments((prevComments) => [
             ...prevComments,
-            { postId: postId, username: 'Your Name', text: newComment, profilePic: sceneryImage },
+            { postId: postId, userName: 'Your Name', text: newComment, profilePic: sceneryImage },
         ]);
 
         setNewComment('');
@@ -162,7 +162,7 @@ const SearchPage = () => {
                                 )}
                                 <div>
                                     <h3>{item.profileName}</h3>
-                                    <span>{item.user && item.user.username}</span>
+                                    <span>{item.user && item.user.userName}</span>
                                 </div>
                             </div>
                         </button>
@@ -200,7 +200,7 @@ const SearchPage = () => {
                         return item.comments.map((comment, index) => (
                             <div key={index} style={commentStyles}>
                                 <img src={comment.profilePic} alt="Profile" style={profilePicStyles} />
-                                <span style={usernameStyles}>{comment.username}:</span>
+                                <span style={usernameStyles}>{comment.userName}:</span>
                                 <span>{comment.text}</span>
                             </div>
                         ));

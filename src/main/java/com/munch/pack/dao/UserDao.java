@@ -62,7 +62,9 @@ public class UserDao {
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     String username = resultSet.getString("UserName");
+                    String photo = resultSet.getString("photo"); // Fetch the 'photo' field from the result set
                     user = new User(username);
+                    user.setPhoto(photo); // Set the 'photo' field in the User object
                 }
             }
         } catch (SQLException e) {
@@ -71,6 +73,7 @@ public class UserDao {
 
         return user;
     }
+
 
     public void addUser(User user) {
         try (PreparedStatement statement = connection.prepareStatement("INSERT INTO user (Name, Surname, Username, Email, Password, Photo) VALUES (?, ?, ?, ?, ?, ?)")) {

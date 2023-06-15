@@ -42,8 +42,8 @@ public class Comment {
         this.userId = userId;
         this.postId = postId;
         this.date = date;
-        this.photo = photo;
         this.replies = new ArrayList<>();
+        this.photo = photo;
     }
 
     // Getters and setters for the properties

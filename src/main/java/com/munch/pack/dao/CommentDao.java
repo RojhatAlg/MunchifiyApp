@@ -33,6 +33,8 @@ public class CommentDao {
                 Long postId = resultSet.getLong("PostId");
                 String photo = resultSet.getString("u.photo");
 
+                System.out.println("Photo: " + photo);
+
                 Comment comment = new Comment(id, text, userId, postId, date, photo);
                 comment.setPhoto(photo);
                 comments.add(comment);
